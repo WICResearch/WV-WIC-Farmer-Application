@@ -1,0 +1,418 @@
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+&lt;meta name=&quot;description&quot; content=&quot;West Virginia WIC Farmer and Farmer Market
+Authorization Application&quot; /&gt;
+&lt;title&gt;WV WIC Farmer Authorization Application&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;a class=&quot;skip-link&quot; href=&quot;#main-content&quot;&gt;Skip to main content&lt;/a&gt;
+&lt;header class=&quot;site-header&quot; role=&quot;banner&quot;&gt;
+&lt;div class=&quot;brand-wrap&quot;&gt;
+&lt;div class=&quot;brand-mark&quot; aria-hidden=&quot;true&quot;&gt;WV&lt;/div&gt;
+&lt;div&gt;
+&lt;p class=&quot;eyebrow&quot;&gt;West Virginia Department of Health&lt;/p&gt;
+&lt;h1&gt;WIC Farmer Authorization Application&lt;/h1&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;button id=&quot;saveExitBtn&quot; class=&quot;button button-secondary compact&quot; type=&quot;button&quot;&gt;
+Save progress
+&lt;/button&gt;
+&lt;/header&gt;
+&lt;main id=&quot;main-content&quot; class=&quot;page-shell&quot;&gt;
+&lt;section class=&quot;intro-panel&quot; aria-labelledby=&quot;application-title&quot;&gt;
+&lt;p class=&quot;eyebrow&quot;&gt;2026 Application and Agreement&lt;/p&gt;
+&lt;h2 id=&quot;application-title&quot;&gt;Apply to accept WV WIC farmer benefits&lt;/h2&gt;
+&lt;p&gt;
+Use this form to apply as a farmer, farmers’ market, or roadside stand.
+Your progress is saved on this device as you work.
+&lt;/p&gt;
+&lt;div class=&quot;notice&quot; role=&quot;note&quot;&gt;
+&lt;strong&gt;Before you begin:&lt;/strong&gt;
+To receive authorization, you must have cellular service or Wi-Fi at your
+selling location and be willing to use a personal phone or mobile device
+to process electronic transactions.
+&lt;/div&gt;
+&lt;p class=&quot;help-text&quot;&gt;
+Questions? Call &lt;a href=&quot;tel:13045581115&quot;&gt;304-558-1115&lt;/a&gt; or email
+&lt;a href=&quot;mailto:wicvu@wic.gov&quot;&gt;wicvu@wic.gov&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/section&gt;
+&lt;section class=&quot;application-card&quot; aria-label=&quot;Application form&quot;&gt;
+&lt;div class=&quot;progress-wrap&quot;&gt;
+&lt;div class=&quot;progress-label-row&quot;&gt;
+&lt;span id=&quot;stepLabel&quot;&gt;Step 1 of 7&lt;/span&gt;
+&lt;span id=&quot;progressPercent&quot;&gt;14%&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class=&quot;progress-track&quot; aria-hidden=&quot;true&quot;&gt;
+&lt;div id=&quot;progressBar&quot; class=&quot;progress-bar&quot;&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;statusMessage&quot; class=&quot;status-message&quot; role=&quot;status&quot; aria-
+live=&quot;polite&quot;&gt;&lt;/div&gt;
+&lt;form id=&quot;applicationForm&quot; novalidate&gt;
+&lt;!-- STEP 1 --&gt;
+&lt;section class=&quot;form-step is-active&quot; data-step=&quot;1&quot; aria-labelledby=&quot;step1-title&quot;&gt;
+&lt;p class=&quot;step-kicker&quot;&gt;Step 1&lt;/p&gt;
+&lt;h2 id=&quot;step1-title&quot;&gt;Select your role&lt;/h2&gt;
+&lt;p class=&quot;section-intro&quot;&gt;Choose the option that best describes your
+application.&lt;/p&gt;
+&lt;fieldset class=&quot;choice-grid&quot;&gt;
+&lt;legend class=&quot;sr-only&quot;&gt;Applicant role&lt;/legend&gt;
+&lt;label class=&quot;choice-card&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;role&quot; value=&quot;Farmer&quot; required /&gt;
+&lt;span class=&quot;choice-title&quot;&gt;Farmer&lt;/span&gt;
+&lt;span class=&quot;choice-description&quot;&gt;
+An individual who grows at least one fruit or vegetable offered
+for sale and sells at participating markets or roadside stands.
+&lt;/span&gt;
+&lt;/label&gt;
+&lt;label class=&quot;choice-card&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;role&quot; value=&quot;Farmers Market&quot; required /&gt;
+&lt;span class=&quot;choice-title&quot;&gt;Farmers’ Market&lt;/span&gt;
+&lt;span class=&quot;choice-description&quot;&gt;
+An association of local farmers who gather at a specified
+location to sell produce directly to consumers.
+&lt;/span&gt;
+&lt;/label&gt;
+&lt;label class=&quot;choice-card&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;role&quot; value=&quot;Roadside Stand&quot; required /&gt;
+&lt;span class=&quot;choice-title&quot;&gt;Roadside Stand&lt;/span&gt;
+&lt;span class=&quot;choice-description&quot;&gt;
+A location where an individual farmer sells produce directly to
+consumers outside of a farmers’ market.
+&lt;/span&gt;
+&lt;/label&gt;
+&lt;/fieldset&gt;
+&lt;/section&gt;
+&lt;!-- STEP 2 --&gt;
+&lt;section class=&quot;form-step&quot; data-step=&quot;2&quot; aria-labelledby=&quot;step2-title&quot;&gt;
+&lt;p class=&quot;step-kicker&quot;&gt;Step 2&lt;/p&gt;
+&lt;h2 id=&quot;step2-title&quot;&gt;Applicant information&lt;/h2&gt;
+&lt;p class=&quot;section-intro&quot;&gt;Tell us who is applying and how we can contact
+you.&lt;/p&gt;
+&lt;div class=&quot;form-grid two-column&quot;&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;managerName&quot;&gt;Farmer or market manager name &lt;span aria-
+hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;managerName&quot; name=&quot;managerName&quot; type=&quot;text&quot; autocomplete=&quot;name&quot;
+required /&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+
+&lt;label for=&quot;farmName&quot;&gt;Farm or market name &lt;span aria-
+hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;farmName&quot; name=&quot;farmName&quot; type=&quot;text&quot;
+autocomplete=&quot;organization&quot; required /&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field full-width&quot;&gt;
+&lt;label for=&quot;mailingAddress&quot;&gt;Mailing address &lt;span aria-
+hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;mailingAddress&quot; name=&quot;mailingAddress&quot; type=&quot;text&quot;
+autocomplete=&quot;street-address&quot; required /&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;city&quot;&gt;City &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;city&quot; name=&quot;city&quot; type=&quot;text&quot; autocomplete=&quot;address-level2&quot;
+required /&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;state&quot;&gt;State &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;select id=&quot;state&quot; name=&quot;state&quot; autocomplete=&quot;address-level1&quot; required&gt;
+&lt;option value=&quot;&quot;&gt;Select state&lt;/option&gt;
+&lt;option value=&quot;WV&quot; selected&gt;West Virginia&lt;/option&gt;
+&lt;option value=&quot;KY&quot;&gt;Kentucky&lt;/option&gt;
+&lt;option value=&quot;OH&quot;&gt;Ohio&lt;/option&gt;
+&lt;option value=&quot;PA&quot;&gt;Pennsylvania&lt;/option&gt;
+&lt;option value=&quot;MD&quot;&gt;Maryland&lt;/option&gt;
+&lt;option value=&quot;VA&quot;&gt;Virginia&lt;/option&gt;
+&lt;option value=&quot;Other&quot;&gt;Other&lt;/option&gt;
+&lt;/select&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;zip&quot;&gt;ZIP code &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;zip&quot; name=&quot;zip&quot; type=&quot;text&quot; inputmode=&quot;numeric&quot;
+autocomplete=&quot;postal-code&quot;
+pattern=&quot;\d{5}(-\d{4})?&quot; placeholder=&quot;25701&quot; required /&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;telephone&quot;&gt;Telephone &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;telephone&quot; name=&quot;telephone&quot; type=&quot;tel&quot; autocomplete=&quot;tel&quot;
+placeholder=&quot;304-555-1234&quot; required /&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;email&quot;&gt;Email address &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;email&quot; name=&quot;email&quot; type=&quot;email&quot; autocomplete=&quot;email&quot; required
+/&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;!-- STEP 3 --&gt;
+&lt;section class=&quot;form-step&quot; data-step=&quot;3&quot; aria-labelledby=&quot;step3-title&quot;&gt;
+&lt;p class=&quot;step-kicker&quot;&gt;Step 3&lt;/p&gt;
+&lt;h2 id=&quot;step3-title&quot;&gt;Selling locations&lt;/h2&gt;
+&lt;p class=&quot;section-intro&quot;&gt;
+Add every location where you plan to accept FMNP and Cash Value Benefits.
+&lt;/p&gt;
+
+&lt;div id=&quot;locationsContainer&quot;&gt;&lt;/div&gt;
+&lt;button id=&quot;addLocationBtn&quot; class=&quot;button button-secondary&quot; type=&quot;button&quot;&gt;
++ Add another location
+&lt;/button&gt;
+&lt;/section&gt;
+&lt;!-- STEP 4 --&gt;
+&lt;section class=&quot;form-step&quot; data-step=&quot;4&quot; aria-labelledby=&quot;step4-title&quot;&gt;
+&lt;p class=&quot;step-kicker&quot;&gt;Step 4&lt;/p&gt;
+&lt;h2 id=&quot;step4-title&quot;&gt;Training and connectivity&lt;/h2&gt;
+&lt;div class=&quot;form-grid two-column&quot;&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;trainingDate&quot;&gt;Date of most recent FMNP training&lt;/label&gt;
+&lt;input id=&quot;trainingDate&quot; name=&quot;trainingDate&quot; type=&quot;date&quot; /&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;trainerName&quot;&gt;Trainer name&lt;/label&gt;
+&lt;input id=&quot;trainerName&quot; name=&quot;trainerName&quot; type=&quot;text&quot; /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;fieldset class=&quot;stacked-fieldset&quot;&gt;
+&lt;legend&gt;Type of training&lt;/legend&gt;
+&lt;label class=&quot;inline-choice&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;trainingType&quot; value=&quot;In Person&quot; /&gt;
+In person
+&lt;/label&gt;
+&lt;label class=&quot;inline-choice&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;trainingType&quot; value=&quot;Online&quot; /&gt;
+Online
+&lt;/label&gt;
+&lt;label class=&quot;inline-choice&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;trainingType&quot; value=&quot;Not yet completed&quot; /&gt;
+Not yet completed
+&lt;/label&gt;
+&lt;/fieldset&gt;
+&lt;fieldset class=&quot;stacked-fieldset&quot;&gt;
+&lt;legend&gt;Do you have cellular service and/or Wi-Fi at each selling location?
+&lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/legend&gt;
+&lt;label class=&quot;inline-choice&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;connectivity&quot; value=&quot;Yes&quot; required /&gt;
+Yes
+&lt;/label&gt;
+&lt;label class=&quot;inline-choice&quot;&gt;
+&lt;input type=&quot;radio&quot; name=&quot;connectivity&quot; value=&quot;No&quot; required /&gt;
+No
+&lt;/label&gt;
+&lt;/fieldset&gt;
+&lt;div id=&quot;connectivityWarning&quot; class=&quot;warning hidden&quot; role=&quot;alert&quot;&gt;
+WIC authorization requires cellular service or Wi-Fi and the ability
+to process electronic transactions using a mobile device. You may
+continue, but staff will need to follow up before authorization.
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;!-- STEP 5 --&gt;
+&lt;section class=&quot;form-step&quot; data-step=&quot;5&quot; aria-labelledby=&quot;step5-title&quot;&gt;
+
+&lt;p class=&quot;step-kicker&quot;&gt;Step 5&lt;/p&gt;
+&lt;h2 id=&quot;step5-title&quot;&gt;Farmer agreement&lt;/h2&gt;
+&lt;p class=&quot;section-intro&quot;&gt;
+Review the responsibilities below. You can open or close each section.
+&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Farmer, farmers’ market, and roadside stand
+responsibilities&lt;/summary&gt;
+&lt;ol class=&quot;agreement-list&quot;&gt;
+&lt;li&gt;Display authorized WIC and WVFMNP signage.&lt;/li&gt;
+&lt;li&gt;Accept electronic WIC FMNP benefits during the June 1 through October
+31 season.&lt;/li&gt;
+&lt;li&gt;Accept WIC Cash Value Benefits year-round when open.&lt;/li&gt;
+&lt;li&gt;Accept benefits only from eligible participants, caretakers, or
+proxies.&lt;/li&gt;
+&lt;li&gt;Provide eligible fruits and vegetables at the same quality and price
+offered to other customers.&lt;/li&gt;
+&lt;li&gt;Process benefits only for eligible foods.&lt;/li&gt;
+&lt;li&gt;Keep WIC and FMNP shopper information confidential.&lt;/li&gt;
+&lt;li&gt;Complete required training and train employees.&lt;/li&gt;
+&lt;li&gt;Provide records and reports requested by the program.&lt;/li&gt;
+&lt;li&gt;Allow overt and covert compliance monitoring.&lt;/li&gt;
+&lt;li&gt;Be responsible for employee actions.&lt;/li&gt;
+&lt;li&gt;Repay benefits processed in violation of the agreement.&lt;/li&gt;
+&lt;li&gt;Treat WIC shoppers with the same courtesy as all other customers.&lt;/li&gt;
+&lt;li&gt;Follow USDA nondiscrimination requirements.&lt;/li&gt;
+&lt;li&gt;Notify WV WIC about closure, address changes, or corrections.&lt;/li&gt;
+&lt;li&gt;Grow at least one fruit or vegetable offered for sale.&lt;/li&gt;
+&lt;li&gt;Sell fruits and vegetables grown in West Virginia or within 50 miles of
+the state border.&lt;/li&gt;
+&lt;li&gt;Do not collect sales tax on eligible purchases.&lt;/li&gt;
+&lt;li&gt;Do not require a participant to use the full benefit amount.&lt;/li&gt;
+&lt;li&gt;Do not seek payment from participants for unpaid or partially paid
+benefits.&lt;/li&gt;
+&lt;li&gt;Do not provide cash change, rain checks, or IOUs.&lt;/li&gt;
+&lt;li&gt;Do not traffic benefits.&lt;/li&gt;
+&lt;li&gt;Report suspected participant fraud or violations.&lt;/li&gt;
+&lt;li&gt;Follow signature requirements for paper checks; electronic benefits do
+not require signatures.&lt;/li&gt;
+&lt;li&gt;Follow all WV WIC operating rules, standards, and technical
+requirements.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt;West Virginia WIC Program responsibilities&lt;/summary&gt;
+&lt;ol class=&quot;agreement-list&quot;&gt;
+&lt;li&gt;Accept and review applications fairly while supporting statewide
+access.&lt;/li&gt;
+&lt;li&gt;Authorize eligible farmers, farmers’ markets, and roadside stands.&lt;/li&gt;
+&lt;li&gt;Use consistent participation standards without discrimination.&lt;/li&gt;
+&lt;li&gt;Issue electronic benefits to eligible participants.&lt;/li&gt;
+&lt;li&gt;Maintain sufficient funds for authorized banking activity.&lt;/li&gt;
+&lt;li&gt;Provide signs, food lists, handbooks, and training materials.&lt;/li&gt;
+&lt;li&gt;Provide training and guidance at required intervals.&lt;/li&gt;
+&lt;li&gt;Provide technical assistance and compliance monitoring.&lt;/li&gt;
+&lt;li&gt;Notify farmers of policy or procedure changes.&lt;/li&gt;
+&lt;li&gt;Maintain a fair hearing process for appealable adverse actions.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;General terms&lt;/summary&gt;
+&lt;ul class=&quot;agreement-list&quot;&gt;
+&lt;li&gt;The agreement runs from the final signature date through March 31,
+2029.&lt;/li&gt;
+&lt;li&gt;Either party may terminate for cause with required notice.&lt;/li&gt;
+&lt;li&gt;Improperly redeemed transactions may be denied or recovered.&lt;/li&gt;
+&lt;li&gt;Fraud or program abuse may lead to disqualification or
+prosecution.&lt;/li&gt;
+&lt;li&gt;Applicants may appeal certain denials, sanctions, or
+disqualifications.&lt;/li&gt;
+&lt;li&gt;No conflict of interest may exist.&lt;/li&gt;
+&lt;li&gt;The agreement does not authorize the sale of foods other than eligible
+fruits and vegetables.&lt;/li&gt;
+&lt;li&gt;Noncompliance may result in claims or sanctions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/details&gt;
+&lt;label class=&quot;certification-box&quot;&gt;
+&lt;input id=&quot;agreementAccepted&quot; name=&quot;agreementAccepted&quot; type=&quot;checkbox&quot;
+required /&gt;
+&lt;span&gt;
+I have reviewed the Farmer Agreement and understand the responsibilities
+that apply to this authorization.
+&lt;/span&gt;
+&lt;/label&gt;
+&lt;/section&gt;
+&lt;!-- STEP 6 --&gt;
+&lt;section class=&quot;form-step&quot; data-step=&quot;6&quot; aria-labelledby=&quot;step6-title&quot;&gt;
+&lt;p class=&quot;step-kicker&quot;&gt;Step 6&lt;/p&gt;
+&lt;h2 id=&quot;step6-title&quot;&gt;Civil rights assurance&lt;/h2&gt;
+&lt;p&gt;
+Authorized farmers must comply with applicable federal and state civil
+rights laws and may not discriminate in WIC or FMNP activities.
+&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Read the full civil rights assurance&lt;/summary&gt;
+&lt;div class=&quot;legal-text&quot;&gt;
+&lt;p&gt;
+The applicant agrees to comply with Title VI of the Civil Rights Act
+of 1964, Title IX of the Education Amendments of 1972, Section 504 of
+the Rehabilitation Act of 1973, the Age Discrimination Act of 1975,
+Titles II and III of the Americans with Disabilities Act, Executive
+Order 13166, USDA civil rights regulations, and West Virginia
+Department of Health directives.
+&lt;/p&gt;
+&lt;p&gt;
+No person may be excluded from participation in, denied the benefits
+of, or subjected to discrimination under a covered program because
+of race, color, national origin, age, sex, disability, or protected
+prior civil rights activity.
+&lt;/p&gt;
+&lt;p&gt;
+Persons who need alternative communication methods may contact the
+administering agency or use Telecommunications Relay Service 711.
+Program information may also be made available in languages other
+than English.
+&lt;/p&gt;
+&lt;p&gt;
+To request the USDA Program Discrimination Complaint Form, call
+
+866-632-9992. Complaint instructions are available from USDA.
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;USDA is an equal opportunity provider, employer, and
+lender.&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/details&gt;
+&lt;label class=&quot;certification-box&quot;&gt;
+&lt;input id=&quot;civilRightsAccepted&quot; name=&quot;civilRightsAccepted&quot; type=&quot;checkbox&quot;
+required /&gt;
+&lt;span&gt;
+I have read and agree to the Civil Rights Assurance.
+&lt;/span&gt;
+&lt;/label&gt;
+&lt;/section&gt;
+&lt;!-- STEP 7 --&gt;
+&lt;section class=&quot;form-step&quot; data-step=&quot;7&quot; aria-labelledby=&quot;step7-title&quot;&gt;
+&lt;p class=&quot;step-kicker&quot;&gt;Step 7&lt;/p&gt;
+&lt;h2 id=&quot;step7-title&quot;&gt;Review and sign&lt;/h2&gt;
+&lt;div id=&quot;reviewPanel&quot; class=&quot;review-panel&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;form-grid two-column signature-section&quot;&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;signatureName&quot;&gt;Type your full legal name &lt;span aria-
+hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;signatureName&quot; name=&quot;signatureName&quot; type=&quot;text&quot;
+autocomplete=&quot;name&quot; required /&gt;
+&lt;p class=&quot;help-text&quot;&gt;Typing your name serves as your electronic
+signature.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;label for=&quot;signatureDate&quot;&gt;Date &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+&lt;input id=&quot;signatureDate&quot; name=&quot;signatureDate&quot; type=&quot;date&quot; required /&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;label class=&quot;certification-box&quot;&gt;
+&lt;input id=&quot;truthCertification&quot; name=&quot;truthCertification&quot; type=&quot;checkbox&quot;
+required /&gt;
+&lt;span&gt;
+I certify that the information in this application is complete and
+accurate. I understand that false information may result in immediate
+termination or denial of authorization.
+&lt;/span&gt;
+&lt;/label&gt;
+&lt;div class=&quot;notice&quot; role=&quot;note&quot;&gt;
+Completing this application does not by itself authorize you to accept
+WV WIC FMNP or Cash Value Benefits.
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;div class=&quot;form-actions&quot;&gt;
+&lt;button id=&quot;backBtn&quot; class=&quot;button button-secondary&quot;
+type=&quot;button&quot;&gt;Back&lt;/button&gt;
+&lt;button id=&quot;nextBtn&quot; class=&quot;button button-primary&quot;
+type=&quot;button&quot;&gt;Continue&lt;/button&gt;
+&lt;button id=&quot;submitBtn&quot; class=&quot;button button-primary hidden&quot; type=&quot;submit&quot;&gt;
+Submit application
+
+&lt;/button&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+&lt;section id=&quot;successPanel&quot; class=&quot;success-panel hidden&quot; tabindex=&quot;-1&quot; aria-
+labelledby=&quot;success-title&quot;&gt;
+&lt;h2 id=&quot;success-title&quot;&gt;Application submitted&lt;/h2&gt;
+&lt;p id=&quot;confirmationText&quot;&gt;&lt;/p&gt;
+&lt;div class=&quot;success-actions&quot;&gt;
+&lt;button id=&quot;printBtn&quot; class=&quot;button button-secondary&quot; type=&quot;button&quot;&gt;Print
+confirmation&lt;/button&gt;
+&lt;button id=&quot;downloadBtn&quot; class=&quot;button button-secondary&quot; type=&quot;button&quot;&gt;Download
+a copy&lt;/button&gt;
+&lt;button id=&quot;newApplicationBtn&quot; class=&quot;button button-primary&quot;
+type=&quot;button&quot;&gt;Start a new application&lt;/button&gt;
+&lt;/div&gt;
+&lt;/section&gt;
+&lt;/section&gt;
+&lt;/main&gt;
+&lt;footer class=&quot;site-footer&quot;&gt;
+&lt;p&gt;
+West Virginia WIC Program · Vendor &amp;amp; Farmer Management Unit ·
+350 Capitol Street, Room 515, Charleston, WV 25301
+&lt;/p&gt;
+&lt;/footer&gt;
+&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
