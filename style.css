@@ -414,12 +414,12 @@ cursor: pointer;
 }
 
 .button-primary {
-background: var(--wic-blue);
+background: var(--wic-green-dark);
 color: white;
 }
 
 .button-primary:hover {
-background: var(--wic-blue-dark);
+background: #3f650f;
 }
 
 .button-secondary {
