@@ -623,3 +623,44 @@ padding-top: 12px;
 align-self: flex-start;
 }
 }
+.site-header .official-logos img {
+display: block !important;
+width: auto !important;
+object-fit: contain !important;
+}
+
+.site-header .health-logo {
+max-width: 230px !important;
+max-height: 64px !important;
+}
+
+.site-header .wic-logo {
+max-width: 110px !important;
+max-height: 64px !important;
+}
+
+.site-header .official-logos {
+display: flex !important;
+align-items: center !important;
+gap: 16px !important;
+flex-shrink: 0;
+}
+
+.site-header .brand-wrap {
+display: flex !important;
+align-items: center !important;
+gap: 24px !important;
+min-width: 0;
+}
+
+@media (max-width: 760px) {
+.site-header .health-logo {
+max-width: 180px !important;
+max-height: 52px !important;
+}
+
+.site-header .wic-logo {
+max-width: 78px !important;
+max-height: 48px !important;
+}
+}
