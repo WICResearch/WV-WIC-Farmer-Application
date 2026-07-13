@@ -664,3 +664,95 @@ max-width: 78px !important;
 max-height: 48px !important;
 }
 }
+/* Corrected WV WIC header */
+
+.site-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 24px;
+padding: 18px 36px;
+background: #ffffff;
+border-bottom: 5px solid var(--wic-green);
+box-shadow: 0 4px 18px rgba(0, 63, 86, 0.12);
+}
+
+.header-branding {
+display: flex;
+align-items: center;
+gap: 28px;
+min-width: 0;
+}
+
+.header-logos {
+display: flex;
+align-items: center;
+gap: 14px;
+flex-shrink: 0;
+}
+
+.site-header .health-logo {
+display: block;
+width: 210px !important;
+max-width: 210px !important;
+height: 60px !important;
+object-fit: contain;
+}
+
+.site-header .wic-logo {
+display: block;
+width: 110px !important;
+max-width: 110px !important;
+height: 60px !important;
+object-fit: contain;
+}
+
+.header-divider {
+width: 2px;
+height: 48px;
+background: #d6e0e4;
+}
+
+.header-title {
+padding-left: 24px;
+border-left: 1px solid #d6e0e4;
+}
+
+.header-title h1 {
+margin: 2px 0 0;
+color: var(--wic-blue-dark);
+font-size: 1.55rem;
+}
+
+.header-title .eyebrow {
+color: var(--wic-green-dark);
+}
+
+@media (max-width: 800px) {
+.site-header {
+flex-direction: column;
+align-items: flex-start;
+padding: 16px;
+}
+
+.header-branding {
+flex-direction: column;
+align-items: flex-start;
+gap: 14px;
+}
+
+.site-header .health-logo {
+width: 180px !important;
+max-width: 180px !important;
+height: 50px !important;
+}
+
+.site-header .wic-logo {
+width: 82px !important;
+max-width: 82px !important;
+height: 48px !important;
+}
+
+.header-title {
+padding-left: 0;
+padding-top: 12px;
