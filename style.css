@@ -520,3 +520,12 @@ box-shadow: none;
 padding: 0;
 }
 }
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 16px; 
+}
+.logo-row img {
+  max-height: 58px;
+  width: auto;
+}
