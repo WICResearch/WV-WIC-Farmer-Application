@@ -1,119 +1,522 @@
-/**
-* WV WIC Farmer Authorization Portal
-* Google Apps Script backend
-*
-* SETUP
-* 1. Create a Google Sheet.
-* 2. Open Extensions &gt; Apps Script.
-* 3. Paste this file into Code.gs.
-* 4. Change SHEET_NAME if desired.
-* 5. Deploy &gt; New deployment &gt; Web app.
-* 6. Execute as: Me.
-* 7. Who has access: choose the setting approved by your organization.
-* 8. Copy the Web App URL into CONFIG.submissionEndpoint in script.js.
-*/
-const SHEET_NAME = &quot;Applications&quot;;
-function doPost(e) {
-try {
-const payload = JSON.parse(e.postData.contents || &quot;{}&quot;);
-validatePayload_(payload);
-const sheet = getOrCreateSheet_();
-const row = flattenPayload_(payload);
-ensureHeaders_(sheet, Object.keys(row));
-appendObject_(sheet, row);
+:root {
+--wic-blue: #005a78;
+--wic-blue-dark: #003f56;
+--wic-green: #78be20;
+--wic-green-dark: #4f7d12;
+--surface: #ffffff;
+--surface-soft: #f5f8f9;
+--text: #1f2933;
+--muted: #59636e;
+--border: #c7d1d6;
+--danger: #a61b1b;
+--warning-bg: #fff5d6;
+--warning-border: #d19b00;
+--focus: #ffbf47;
+--radius: 14px;
+--shadow: 0 8px 24px rgba(0, 63, 86, 0.12);
+}
 
-return jsonResponse_({
-status: &quot;success&quot;,
-applicationId: payload.applicationId
-});
-} catch (error) {
-console.error(error);
-return jsonResponse_({
-status: &quot;error&quot;,
-message: error.message || &quot;Unknown error&quot;
-});
+* {
+box-sizing: border-box;
 }
-}
-function doGet() {
-return jsonResponse_({
-status: &quot;ok&quot;,
-service: &quot;WV WIC Farmer Authorization Portal&quot;
-});
-}
-function validatePayload_(payload) {
-const required = [
-payload.applicationId,
-payload.role,
-payload.applicant &amp;&amp; payload.applicant.managerName,
-payload.applicant &amp;&amp; payload.applicant.farmName,
-payload.applicant &amp;&amp; payload.applicant.email,
-payload.training &amp;&amp; payload.training.connectivity,
-payload.signature &amp;&amp; payload.signature.name,
-payload.signature &amp;&amp; payload.signature.date
-];
-if (required.some(value =&gt; !value)) {
-throw new Error(&quot;Required application information is missing.&quot;);
-}
-if (!Array.isArray(payload.locations) || payload.locations.length === 0) {
-throw new Error(&quot;At least one selling location is required.&quot;);
-}
-if (!payload.certifications ||
-!payload.certifications.agreementAccepted ||
-!payload.certifications.civilRightsAccepted ||
-!payload.certifications.truthCertification) {
-throw new Error(&quot;All certifications must be accepted.&quot;);
-}
-}
-function getOrCreateSheet_() {
-const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-return spreadsheet.getSheetByName(SHEET_NAME) ||
-spreadsheet.insertSheet(SHEET_NAME);
-}
-function flattenPayload_(payload) {
-return {
-&quot;Application ID&quot;: payload.applicationId,
-&quot;Submitted At&quot;: payload.submittedAt,
-&quot;Application Version&quot;: payload.applicationVersion,
-&quot;Role&quot;: payload.role,
-&quot;Manager Name&quot;: payload.applicant.managerName,
 
-&quot;Farm or Market Name&quot;: payload.applicant.farmName,
-&quot;Mailing Address&quot;: payload.applicant.mailingAddress,
-&quot;City&quot;: payload.applicant.city,
-&quot;State&quot;: payload.applicant.state,
-&quot;ZIP&quot;: payload.applicant.zip,
-&quot;Telephone&quot;: payload.applicant.telephone,
-&quot;Email&quot;: payload.applicant.email,
-&quot;Selling Locations JSON&quot;: JSON.stringify(payload.locations),
-&quot;Training Date&quot;: payload.training.date,
-&quot;Trainer Name&quot;: payload.training.trainerName,
-&quot;Training Type&quot;: payload.training.type,
-&quot;Connectivity&quot;: payload.training.connectivity,
-&quot;Agreement Accepted&quot;: payload.certifications.agreementAccepted,
-&quot;Civil Rights Accepted&quot;: payload.certifications.civilRightsAccepted,
-&quot;Truth Certification&quot;: payload.certifications.truthCertification,
-&quot;Electronic Signature&quot;: payload.signature.name,
-&quot;Signature Date&quot;: payload.signature.date,
-&quot;Review Status&quot;: &quot;New&quot;,
-&quot;Reviewer Notes&quot;: &quot;&quot;
-};
+html {
+scroll-behavior: smooth;
 }
-function ensureHeaders_(sheet, headers) {
-if (sheet.getLastRow() === 0) {
-sheet.appendRow(headers);
-sheet.getRange(1, 1, 1, headers.length).setFontWeight(&quot;bold&quot;);
-sheet.setFrozenRows(1);
+
+body {
+margin: 0;
+font-family: Arial, Helvetica, sans-serif;
+color: var(--text);
+background: var(--surface-soft);
+line-height: 1.55;
+}
+
+a {
+color: var(--wic-blue);
+}
+
+button,
+input,
+select,
+textarea {
+font: inherit;
+}
+
+button,
+label,
+summary {
+touch-action: manipulation;
+}
+
+.skip-link {
+position: absolute;
+left: 1rem;
+top: -4rem;
+background: #000;
+color: #fff;
+padding: 0.75rem 1rem;
+z-index: 1000;
+}
+
+.skip-link:focus {
+top: 1rem;
+}
+
+.site-header {
+background: var(--surface);
+border-bottom: 4px solid var(--wic-green);
+padding: 1rem clamp(1rem, 4vw, 3rem);
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 1rem;
+}
+
+.brand-wrap {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+
+.brand-mark {
+width: 58px;
+height: 58px;
+border-radius: 12px;
+background: var(--wic-blue);
+color: white;
+display: grid;
+place-items: center;
+font-size: 1.4rem;
+font-weight: 800;
+}
+
+.site-header h1 {
+margin: 0.1rem 0 0;
+font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+}
+
+.eyebrow,
+.step-kicker {
+text-transform: uppercase;
+letter-spacing: 0.08em;
+font-size: 0.78rem;
+font-weight: 800;
+color: var(--wic-blue);
+margin: 0;
+}
+
+.page-shell {
+width: min(1040px, calc(100% - 2rem));
+margin: 2rem auto;
+}
+
+.intro-panel {
+margin-bottom: 1.5rem;
+}
+
+.intro-panel h2 {
+font-size: clamp(1.8rem, 4vw, 2.8rem);
+line-height: 1.15;
+margin: 0.4rem 0 0.8rem;
+}
+
+.application-card {
+background: var(--surface);
+border-radius: var(--radius);
+box-shadow: var(--shadow);
+padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.progress-wrap {
+margin-bottom: 2rem;
+}
+
+.progress-label-row {
+display: flex;
+justify-content: space-between;
+font-weight: 700;
+margin-bottom: 0.5rem;
+}
+
+.progress-track {
+height: 12px;
+background: #dde6e9;
+border-radius: 999px;
+overflow: hidden;
+}
+
+.progress-bar {
+height: 100%;
+width: 14%;
+background: var(--wic-green);
+transition: width 180ms ease;
+}
+
+.form-step {
+display: none;
+}
+
+.form-step.is-active {
+display: block;
+}
+
+.form-step h2 {
+font-size: clamp(1.6rem, 3vw, 2.2rem);
+margin: 0.25rem 0 0.4rem;
+}
+
+.section-intro {
+color: var(--muted);
+margin-top: 0;
+}
+
+.choice-grid {
+border: 0;
+padding: 0;
+display: grid;
+gap: 1rem;
+}
+
+.choice-card {
+display: grid;
+grid-template-columns: auto 1fr;
+column-gap: 0.9rem;
+row-gap: 0.2rem;
+border: 2px solid var(--border);
+border-radius: var(--radius);
+padding: 1.1rem;
+cursor: pointer;
+background: var(--surface);
+}
+
+.choice-card:hover {
+border-color: var(--wic-blue);
+}
+
+.choice-card:has(input:checked) {
+border-color: var(--wic-green-dark);
+background: #f4faea;
+}
+
+.choice-card input {
+grid-row: 1 / span 2;
+margin-top: 0.3rem;
+width: 22px;
+height: 22px;
+}
+
+.choice-title {
+font-weight: 800;
+font-size: 1.05rem;
+}
+
+.choice-description {
+color: var(--muted);
+}
+
+.form-grid {
+display: grid;
+gap: 1rem;
+}
+
+.two-column {
+grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.full-width {
+grid-column: 1 / -1;
+}
+
+.field {
+display: flex;
+flex-direction: column;
+gap: 0.35rem;
+}
+
+.field label,
+fieldset legend {
+font-weight: 800;
+}
+
+.field input,
+.field select,
+.field textarea {
+width: 100%;
+border: 2px solid var(--border);
+border-radius: 10px;
+padding: 0.8rem 0.9rem;
+min-height: 48px;
+background: white;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+button:focus,
+summary:focus,
+.choice-card:focus-within {
+outline: 4px solid var(--focus);
+outline-offset: 2px;
+}
+
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"] {
+border-color: var(--danger);
+}
+
+.field-error {
+color: var(--danger);
+font-weight: 700;
+font-size: 0.92rem;
+}
+
+.location-card {
+border: 2px solid var(--border);
+border-radius: var(--radius);
+padding: 1rem;
+margin-bottom: 1rem;
+background: #fbfcfc;
+}
+
+.location-card-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 1rem;
+margin-bottom: 1rem;
+}
+
+.location-card h3 {
+margin: 0;
+}
+
+.remove-location {
+border: 0;
+background: transparent;
+color: var(--danger);
+text-decoration: underline;
+cursor: pointer;
+font-weight: 700;
+}
+
+.stacked-fieldset {
+border: 0;
+padding: 0;
+margin: 1.5rem 0;
+}
+
+.inline-choice {
+display: flex;
+gap: 0.65rem;
+align-items: center;
+padding: 0.55rem 0;
+}
+
+.inline-choice input,
+.certification-box input {
+width: 22px;
+height: 22px;
+flex: 0 0 auto;
+}
+
+.notice,
+.warning {
+border-left: 6px solid var(--wic-blue);
+background: #eaf5f8;
+padding: 1rem;
+border-radius: 8px;
+margin: 1rem 0;
+}
+
+.warning {
+border-color: var(--warning-border);
+background: var(--warning-bg);
+}
+
+details {
+border: 2px solid var(--border);
+border-radius: 10px;
+margin: 0.8rem 0;
+overflow: hidden;
+}
+
+summary {
+cursor: pointer;
+font-weight: 800;
+padding: 1rem;
+background: #f7fafb;
+}
+
+details > :not(summary) {
+margin-left: 1rem;
+margin-right: 1rem;
+}
+
+.agreement-list,
+.legal-text {
+padding-bottom: 1rem;
+}
+
+.certification-box {
+display: flex;
+gap: 0.75rem;
+align-items: flex-start;
+border: 2px solid var(--wic-green);
+border-radius: 10px;
+padding: 1rem;
+margin-top: 1.25rem;
+background: #f4faea;
+}
+
+.review-panel {
+display: grid;
+gap: 0.8rem;
+margin: 1rem 0 1.5rem;
+}
+
+.review-section {
+border: 1px solid var(--border);
+border-radius: 10px;
+padding: 1rem;
+}
+
+.review-section h3 {
+margin-top: 0;
+color: var(--wic-blue-dark);
+}
+
+.review-list {
+margin: 0;
+padding-left: 1.2rem;
+}
+
+.signature-section {
+margin-top: 1.5rem;
+}
+
+.form-actions,
+.success-actions {
+display: flex;
+justify-content: space-between;
+gap: 0.75rem;
+margin-top: 2rem;
+flex-wrap: wrap;
+}
+
+.button {
+border: 0;
+border-radius: 10px;
+min-height: 48px;
+padding: 0.75rem 1.1rem;
+font-weight: 800;
+cursor: pointer;
+}
+
+.button-primary {
+background: var(--wic-blue);
+color: white;
+}
+
+.button-primary:hover {
+background: var(--wic-blue-dark);
+}
+
+.button-secondary {
+background: white;
+color: var(--wic-blue-dark);
+border: 2px solid var(--wic-blue);
+}
+
+.compact {
+min-height: 40px;
+padding: 0.5rem 0.75rem;
+}
+
+.status-message {
+min-height: 1.5rem;
+color: var(--wic-green-dark);
+font-weight: 700;
+}
+
+.help-text {
+color: var(--muted);
+font-size: 0.92rem;
+}
+
+.success-panel {
+text-align: center;
+padding: 1rem;
+}
+
+.site-footer {
+padding: 2rem 1rem;
+text-align: center;
+color: var(--muted);
+font-size: 0.9rem;
+}
+
+.hidden {
+display: none !important;
+}
+
+.sr-only {
+position: absolute !important;
+width: 1px !important;
+height: 1px !important;
+padding: 0 !important;
+margin: -1px !important;
+overflow: hidden !important;
+clip: rect(0, 0, 0, 0) !important;
+white-space: nowrap !important;
+border: 0 !important;
+}
+
+@media (max-width: 720px) {
+.site-header {
+align-items: flex-start;
+}
+
+.brand-mark {
+width: 48px;
+height: 48px;
+}
+
+.two-column {
+grid-template-columns: 1fr;
+}
+
+.full-width {
+grid-column: auto;
+}
+
+.form-actions .button,
+.success-actions .button {
+width: 100%;
+}
+
+.site-header .compact {
+width: auto;
 }
 }
-function appendObject_(sheet, rowObject) {
-const headers = sheet
-.getRange(1, 1, 1, sheet.getLastColumn())
-.getValues()[0];
-const row = headers.map(header =&gt; rowObject[header] ?? &quot;&quot;);
-sheet.appendRow(row);
+
+@media print {
+.site-header,
+.intro-panel,
+.progress-wrap,
+.form-actions,
+.site-footer,
+#saveExitBtn,
+.success-actions {
+display: none !important;
 }
-function jsonResponse_(data) {
-return ContentService
-.createTextOutput(JSON.stringify(data))
-.setMimeType(ContentService.MimeType.JSON);
+
+body {
+background: white;
+}
+
+.application-card {
+box-shadow: none;
+padding: 0;
+}
 }
