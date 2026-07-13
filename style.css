@@ -534,3 +534,92 @@ padding: 0;
   max-height: 58px;
   width: auto;
 }
+.site-header {
+background: rgba(255, 255, 255, 0.97);
+padding: 18px clamp(18px, 4vw, 48px);
+border-bottom: 5px solid var(--wic-green);
+box-shadow: 0 3px 16px rgba(0, 63, 86, 0.1);
+}
+
+.brand-wrap {
+display: flex;
+align-items: center;
+gap: 28px;
+}
+
+.official-logos {
+display: flex;
+align-items: center;
+gap: 16px;
+}
+
+.health-logo {
+width: min(230px, 30vw);
+max-height: 64px;
+object-fit: contain;
+}
+
+.wic-logo {
+width: auto;
+max-width: 105px;
+max-height: 64px;
+object-fit: contain;
+}
+
+.logo-divider {
+width: 2px;
+height: 52px;
+background: #d6e0e4;
+}
+
+.portal-title {
+border-left: 1px solid #d6e0e4;
+padding-left: 26px;
+}
+
+.portal-title h1 {
+margin: 2px 0 0;
+color: var(--wic-blue-dark);
+font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+}
+
+.portal-title .eyebrow {
+color: var(--wic-green-dark);
+}
+
+@media (max-width: 760px) {
+.site-header {
+flex-direction: column;
+align-items: stretch;
+}
+
+.brand-wrap {
+flex-direction: column;
+align-items: flex-start;
+gap: 14px;
+}
+
+.official-logos {
+width: 100%;
+}
+
+.health-logo {
+width: min(210px, 62vw);
+}
+
+.wic-logo {
+max-width: 82px;
+max-height: 52px;
+}
+
+.portal-title {
+border-left: 0;
+border-top: 1px solid #d6e0e4;
+padding-left: 0;
+padding-top: 12px;
+}
+
+#saveExitBtn {
+align-self: flex-start;
+}
+}
