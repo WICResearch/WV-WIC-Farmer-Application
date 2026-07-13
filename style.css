@@ -30,6 +30,11 @@ font-family: Arial, Helvetica, sans-serif;
 color: var(--text);
 background: var(--surface-soft);
 line-height: 1.55;
+  
+background-image; url("WIC_Embellishments_01.png");
+background-repeat: no-repeat;
+background-position: left bottom;
+background-size: 320px; 
 }
 
 a {
