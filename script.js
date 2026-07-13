@@ -1,456 +1,507 @@
 // -----------------------------
 // WV WIC Farmer Portal
 // -----------------------------
+
 const CONFIG = {
-// Paste your deployed Google Apps Script Web App URL here.
-// Example: https://script.google.com/macros/s/XXXX/exec
-submissionEndpoint: &quot;&quot;,
-storageKey: &quot;wvWicFarmerApplicationDraftV1&quot;,
-totalSteps: 7
+  // Paste your deployed Google Apps Script Web App URL here.
+  // Example: https://script.google.com/macros/s/XXXX/exec
+  submissionEndpoint: "",
+  storageKey: "wvWicFarmerApplicationDraftV1",
+  totalSteps: 7
 };
+
 const WV_COUNTIES = [
-&quot;Barbour&quot;,&quot;Berkeley&quot;,&quot;Boone&quot;,&quot;Braxton&quot;,&quot;Brooke&quot;,&quot;Cabell&quot;,&quot;Calhoun&quot;,&quot;Clay&quot;,
-&quot;Doddridge&quot;,&quot;Fayette&quot;,&quot;Gilmer&quot;,&quot;Grant&quot;,&quot;Greenbrier&quot;,&quot;Hampshire&quot;,&quot;Hancock&quot;,
-&quot;Hardy&quot;,&quot;Harrison&quot;,&quot;Jackson&quot;,&quot;Jefferson&quot;,&quot;Kanawha&quot;,&quot;Lewis&quot;,&quot;Lincoln&quot;,&quot;Logan&quot;,
-&quot;Marion&quot;,&quot;Marshall&quot;,&quot;Mason&quot;,&quot;McDowell&quot;,&quot;Mercer&quot;,&quot;Mineral&quot;,&quot;Mingo&quot;,&quot;Monongalia&quot;,
-&quot;Monroe&quot;,&quot;Morgan&quot;,&quot;Nicholas&quot;,&quot;Ohio&quot;,&quot;Pendleton&quot;,&quot;Pleasants&quot;,&quot;Pocahontas&quot;,
-&quot;Preston&quot;,&quot;Putnam&quot;,&quot;Raleigh&quot;,&quot;Randolph&quot;,&quot;Ritchie&quot;,&quot;Roane&quot;,&quot;Summers&quot;,&quot;Taylor&quot;,
-&quot;Tucker&quot;,&quot;Tyler&quot;,&quot;Upshur&quot;,&quot;Wayne&quot;,&quot;Webster&quot;,&quot;Wetzel&quot;,&quot;Wirt&quot;,&quot;Wood&quot;,&quot;Wyoming&quot;
+  "Barbour","Berkeley","Boone","Braxton","Brooke","Cabell","Calhoun","Clay",
+  "Doddridge","Fayette","Gilmer","Grant","Greenbrier","Hampshire","Hancock",
+  "Hardy","Harrison","Jackson","Jefferson","Kanawha","Lewis","Lincoln","Logan",
+  "Marion","Marshall","Mason","McDowell","Mercer","Mineral","Mingo","Monongalia",
+  "Monroe","Morgan","Nicholas","Ohio","Pendleton","Pleasants","Pocahontas",
+  "Preston","Putnam","Raleigh","Randolph","Ritchie","Roane","Summers","Taylor",
+  "Tucker","Tyler","Upshur","Wayne","Webster","Wetzel","Wirt","Wood","Wyoming"
 ];
-const form = document.getElementById(&quot;applicationForm&quot;);
-const steps = [...document.querySelectorAll(&quot;.form-step&quot;)];
-const backBtn = document.getElementById(&quot;backBtn&quot;);
-const nextBtn = document.getElementById(&quot;nextBtn&quot;);
-const submitBtn = document.getElementById(&quot;submitBtn&quot;);
-const stepLabel = document.getElementById(&quot;stepLabel&quot;);
-const progressPercent = document.getElementById(&quot;progressPercent&quot;);
-const progressBar = document.getElementById(&quot;progressBar&quot;);
-const statusMessage = document.getElementById(&quot;statusMessage&quot;);
-const locationsContainer = document.getElementById(&quot;locationsContainer&quot;);
-const addLocationBtn = document.getElementById(&quot;addLocationBtn&quot;);
-const connectivityWarning = document.getElementById(&quot;connectivityWarning&quot;);
-const reviewPanel = document.getElementById(&quot;reviewPanel&quot;);
-const successPanel = document.getElementById(&quot;successPanel&quot;);
-const confirmationText = document.getElementById(&quot;confirmationText&quot;);
+
+const form = document.getElementById("applicationForm");
+const steps = [...document.querySelectorAll(".form-step")];
+const backBtn = document.getElementById("backBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitBtn = document.getElementById("submitBtn");
+const stepLabel = document.getElementById("stepLabel");
+const progressPercent = document.getElementById("progressPercent");
+const progressBar = document.getElementById("progressBar");
+const statusMessage = document.getElementById("statusMessage");
+const locationsContainer = document.getElementById("locationsContainer");
+const addLocationBtn = document.getElementById("addLocationBtn");
+const connectivityWarning = document.getElementById("connectivityWarning");
+const reviewPanel = document.getElementById("reviewPanel");
+const successPanel = document.getElementById("successPanel");
+const confirmationText = document.getElementById("confirmationText");
+
 let currentStep = 1;
 let locationCounter = 0;
 let lastSubmittedData = null;
-document.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; {
-addLocation();
-restoreDraft();
-setDefaultSignatureDate();
-updateStepUI();
-bindEvents();
+
+document.addEventListener("DOMContentLoaded", () => {
+  addLocation();
+  restoreDraft();
+  setDefaultSignatureDate();
+  updateStepUI();
+  bindEvents();
 });
+
 function bindEvents() {
-backBtn.addEventListener(&quot;click&quot;, goBack);
-nextBtn.addEventListener(&quot;click&quot;, goNext);
-addLocationBtn.addEventListener(&quot;click&quot;, () =&gt; addLocation());
-document.getElementById(&quot;saveExitBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
-saveDraft(true);
-});
-form.addEventListener(&quot;input&quot;, () =&gt; {
+  backBtn.addEventListener("click", goBack);
+  nextBtn.addEventListener("click", goNext);
+  addLocationBtn.addEventListener("click", () => addLocation());
 
-saveDraft(false);
-});
-form.addEventListener(&quot;change&quot;, event =&gt; {
-if (event.target.name === &quot;connectivity&quot;) {
-connectivityWarning.classList.toggle(&quot;hidden&quot;, event.target.value !== &quot;No&quot;);
+  document.getElementById("saveExitBtn").addEventListener("click", () => {
+    saveDraft(true);
+  });
+
+  form.addEventListener("input", () => {
+    saveDraft(false);
+  });
+
+  form.addEventListener("change", event => {
+    if (event.target.name === "connectivity") {
+      connectivityWarning.classList.toggle("hidden", event.target.value !== "No");
+    }
+    saveDraft(false);
+  });
+
+  form.addEventListener("submit", handleSubmit);
+
+  document.getElementById("printBtn").addEventListener("click", () => window.print());
+  document.getElementById("downloadBtn").addEventListener("click", downloadApplicationCopy);
+  document.getElementById("newApplicationBtn").addEventListener("click", resetApplication);
 }
-saveDraft(false);
-});
-form.addEventListener(&quot;submit&quot;, handleSubmit);
-document.getElementById(&quot;printBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; window.print());
-document.getElementById(&quot;downloadBtn&quot;).addEventListener(&quot;click&quot;,
-downloadApplicationCopy);
-document.getElementById(&quot;newApplicationBtn&quot;).addEventListener(&quot;click&quot;,
-resetApplication);
-}
+
 function goNext() {
-if (!validateStep(currentStep)) return;
-if (currentStep &lt; CONFIG.totalSteps) {
-currentStep += 1;
-if (currentStep === CONFIG.totalSteps) {
-renderReview();
+  if (!validateStep(currentStep)) return;
+
+  if (currentStep < CONFIG.totalSteps) {
+    currentStep += 1;
+    if (currentStep === CONFIG.totalSteps) {
+      renderReview();
+    }
+    updateStepUI();
+    focusStepHeading();
+  }
 }
-updateStepUI();
-focusStepHeading();
-}
-}
+
 function goBack() {
-if (currentStep &gt; 1) {
-currentStep -= 1;
-updateStepUI();
-focusStepHeading();
+  if (currentStep > 1) {
+    currentStep -= 1;
+    updateStepUI();
+    focusStepHeading();
+  }
 }
-}
+
 function updateStepUI() {
-steps.forEach(step =&gt; {
-step.classList.toggle(&quot;is-active&quot;, Number(step.dataset.step) === currentStep);
-});
-const percent = Math.round((currentStep / CONFIG.totalSteps) * 100);
-stepLabel.textContent = `Step ${currentStep} of ${CONFIG.totalSteps}`;
-progressPercent.textContent = `${percent}%`;
-progressBar.style.width = `${percent}%`;
-backBtn.classList.toggle(&quot;hidden&quot;, currentStep === 1);
-nextBtn.classList.toggle(&quot;hidden&quot;, currentStep === CONFIG.totalSteps);
-submitBtn.classList.toggle(&quot;hidden&quot;, currentStep !== CONFIG.totalSteps);
-window.scrollTo({ top: 0, behavior: &quot;smooth&quot; });
+  steps.forEach(step => {
+    step.classList.toggle("is-active", Number(step.dataset.step) === currentStep);
+  });
+
+  const percent = Math.round((currentStep / CONFIG.totalSteps) * 100);
+  stepLabel.textContent = `Step ${currentStep} of ${CONFIG.totalSteps}`;
+  progressPercent.textContent = `${percent}%`;
+  progressBar.style.width = `${percent}%`;
+
+  backBtn.classList.toggle("hidden", currentStep === 1);
+  nextBtn.classList.toggle("hidden", currentStep === CONFIG.totalSteps);
+  submitBtn.classList.toggle("hidden", currentStep !== CONFIG.totalSteps);
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
 function focusStepHeading() {
-const heading = document.querySelector(`.form-step[data-step=&quot;${currentStep}&quot;] h2`);
-if (heading) {
-heading.setAttribute(&quot;tabindex&quot;, &quot;-1&quot;);
-heading.focus();
+  const heading = document.querySelector(`.form-step[data-step="${currentStep}"] h2`);
+  if (heading) {
+    heading.setAttribute("tabindex", "-1");
+    heading.focus();
+  }
+}
 
-}
-}
 function validateStep(stepNumber) {
-clearErrors();
-const step = document.querySelector(`.form-step[data-step=&quot;${stepNumber}&quot;]`);
-const requiredFields = [...step.querySelectorAll(&quot;[required]&quot;)];
-let firstInvalid = null;
-requiredFields.forEach(field =&gt; {
-if (!field.checkValidity()) {
-markInvalid(field, field.validationMessage || &quot;Please complete this field.&quot;);
-if (!firstInvalid) firstInvalid = field;
+  clearErrors();
+
+  const step = document.querySelector(`.form-step[data-step="${stepNumber}"]`);
+  const requiredFields = [...step.querySelectorAll("[required]")];
+  let firstInvalid = null;
+
+  requiredFields.forEach(field => {
+    if (!field.checkValidity()) {
+      markInvalid(field, field.validationMessage || "Please complete this field.");
+      if (!firstInvalid) firstInvalid = field;
+    }
+  });
+
+  if (stepNumber === 3) {
+    const locationCards = [...document.querySelectorAll(".location-card")];
+    if (locationCards.length === 0) {
+      statusMessage.textContent = "Please add at least one selling location.";
+      return false;
+    }
+  }
+
+  if (firstInvalid) {
+    statusMessage.textContent = "Please correct the highlighted fields before continuing.";
+    firstInvalid.focus();
+    return false;
+  }
+
+  statusMessage.textContent = "";
+  return true;
 }
-});
-if (stepNumber === 3) {
-const locationCards = [...document.querySelectorAll(&quot;.location-card&quot;)];
-if (locationCards.length === 0) {
-statusMessage.textContent = &quot;Please add at least one selling location.&quot;;
-return false;
-}
-}
-if (firstInvalid) {
-statusMessage.textContent = &quot;Please correct the highlighted fields before
-continuing.&quot;;
-firstInvalid.focus();
-return false;
-}
-statusMessage.textContent = &quot;&quot;;
-return true;
-}
+
 function markInvalid(field, message) {
-field.setAttribute(&quot;aria-invalid&quot;, &quot;true&quot;);
-const fieldWrap = field.closest(&quot;.field&quot;) || field.closest(&quot;fieldset&quot;) ||
-field.parentElement;
-const error = document.createElement(&quot;div&quot;);
-error.className = &quot;field-error&quot;;
-error.textContent = message;
-fieldWrap.appendChild(error);
+  field.setAttribute("aria-invalid", "true");
+  const fieldWrap = field.closest(".field") || field.closest("fieldset") || field.parentElement;
+  const error = document.createElement("div");
+  error.className = "field-error";
+  error.textContent = message;
+  fieldWrap.appendChild(error);
 }
+
 function clearErrors() {
-document.querySelectorAll(&quot;.field-error&quot;).forEach(el =&gt; el.remove());
-document.querySelectorAll(&#39;[aria-invalid=&quot;true&quot;]&#39;).forEach(el =&gt; {
-el.removeAttribute(&quot;aria-invalid&quot;);
-});
+  document.querySelectorAll(".field-error").forEach(el => el.remove());
+  document.querySelectorAll('[aria-invalid="true"]').forEach(el => {
+    el.removeAttribute("aria-invalid");
+  });
 }
+
 function addLocation(data = {}) {
-locationCounter += 1;
-const card = document.createElement(&quot;section&quot;);
-card.className = &quot;location-card&quot;;
-card.dataset.locationId = String(locationCounter);
-const countyOptions = WV_COUNTIES
+  locationCounter += 1;
 
-.map(county =&gt; `&lt;option value=&quot;${escapeHtml(county)}&quot;${data.county === county ? &quot;
-selected&quot; : &quot;&quot;}&gt;${escapeHtml(county)}&lt;/option&gt;`)
-.join(&quot;&quot;);
-card.innerHTML = `
-&lt;div class=&quot;location-card-header&quot;&gt;
-&lt;h3&gt;Selling location ${locationCounter}&lt;/h3&gt;
-&lt;button class=&quot;remove-location&quot; type=&quot;button&quot; aria-label=&quot;Remove selling location
-${locationCounter}&quot;&gt;
-Remove
-&lt;/button&gt;
-&lt;/div&gt;
-&lt;div class=&quot;form-grid two-column&quot;&gt;
-&lt;div class=&quot;field&quot;&gt;
-&lt;label&gt;County &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
-&lt;select name=&quot;locationCounty&quot; required&gt;
-&lt;option value=&quot;&quot;&gt;Select county&lt;/option&gt;
-${countyOptions}
-&lt;option value=&quot;Outside WV&quot;${data.county === &quot;Outside WV&quot; ? &quot; selected&quot; :
-&quot;&quot;}&gt;Outside West Virginia&lt;/option&gt;
-&lt;/select&gt;
-&lt;/div&gt;
-&lt;div class=&quot;field&quot;&gt;
-&lt;label&gt;Street address or market location &lt;span aria-
-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
-&lt;input name=&quot;locationAddress&quot; type=&quot;text&quot; value=&quot;${escapeHtml(data.address ||
-&quot;&quot;)}&quot; required /&gt;
-&lt;/div&gt;
-&lt;div class=&quot;field&quot;&gt;
-&lt;label&gt;Day(s) of operation &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
-&lt;input name=&quot;locationDays&quot; type=&quot;text&quot; placeholder=&quot;Example: Tuesday and
-Saturday&quot;
-value=&quot;${escapeHtml(data.days || &quot;&quot;)}&quot; required /&gt;
-&lt;/div&gt;
-&lt;div class=&quot;field&quot;&gt;
-&lt;label&gt;Time(s) of operation &lt;span aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
-&lt;input name=&quot;locationTimes&quot; type=&quot;text&quot; placeholder=&quot;Example: 8:00 AM–1:00 PM&quot;
-value=&quot;${escapeHtml(data.times || &quot;&quot;)}&quot; required /&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-`;
-card.querySelector(&quot;.remove-location&quot;).addEventListener(&quot;click&quot;, () =&gt; {
-const cards = document.querySelectorAll(&quot;.location-card&quot;);
-if (cards.length === 1) {
-statusMessage.textContent = &quot;At least one selling location is required.&quot;;
-return;
+  const card = document.createElement("section");
+  card.className = "location-card";
+  card.dataset.locationId = String(locationCounter);
+
+  const countyOptions = WV_COUNTIES
+    .map(county => `<option value="${escapeHtml(county)}"${data.county === county ? " selected" : ""}>${escapeHtml(county)}</option>`)
+    .join("");
+
+  card.innerHTML = `
+    <div class="location-card-header">
+      <h3>Selling location ${locationCounter}</h3>
+      <button class="remove-location" type="button" aria-label="Remove selling location ${locationCounter}">
+        Remove
+      </button>
+    </div>
+
+    <div class="form-grid two-column">
+      <div class="field">
+        <label>County <span aria-hidden="true">*</span></label>
+        <select name="locationCounty" required>
+          <option value="">Select county</option>
+          ${countyOptions}
+          <option value="Outside WV"${data.county === "Outside WV" ? " selected" : ""}>Outside West Virginia</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Street address or market location <span aria-hidden="true">*</span></label>
+        <input name="locationAddress" type="text" value="${escapeHtml(data.address || "")}" required />
+      </div>
+
+      <div class="field">
+        <label>Day(s) of operation <span aria-hidden="true">*</span></label>
+        <input name="locationDays" type="text" placeholder="Example: Tuesday and Saturday"
+               value="${escapeHtml(data.days || "")}" required />
+      </div>
+
+      <div class="field">
+        <label>Time(s) of operation <span aria-hidden="true">*</span></label>
+        <input name="locationTimes" type="text" placeholder="Example: 8:00 AM–1:00 PM"
+               value="${escapeHtml(data.times || "")}" required />
+      </div>
+    </div>
+  `;
+
+  card.querySelector(".remove-location").addEventListener("click", () => {
+    const cards = document.querySelectorAll(".location-card");
+    if (cards.length === 1) {
+      statusMessage.textContent = "At least one selling location is required.";
+      return;
+    }
+    card.remove();
+    renumberLocations();
+    saveDraft(false);
+  });
+
+  locationsContainer.appendChild(card);
+  renumberLocations();
 }
-card.remove();
-renumberLocations();
-saveDraft(false);
-});
-locationsContainer.appendChild(card);
-renumberLocations();
-}
+
 function renumberLocations() {
-
-[...document.querySelectorAll(&quot;.location-card&quot;)].forEach((card, index) =&gt; {
-card.querySelector(&quot;h3&quot;).textContent = `Selling location ${index + 1}`;
-card.querySelector(&quot;.remove-location&quot;).setAttribute(
-&quot;aria-label&quot;,
-`Remove selling location ${index + 1}`
-);
-});
+  [...document.querySelectorAll(".location-card")].forEach((card, index) => {
+    card.querySelector("h3").textContent = `Selling location ${index + 1}`;
+    card.querySelector(".remove-location").setAttribute(
+      "aria-label",
+      `Remove selling location ${index + 1}`
+    );
+  });
 }
+
 function collectFormData() {
-const raw = Object.fromEntries(new FormData(form).entries());
-const locations = [...document.querySelectorAll(&quot;.location-card&quot;)].map(card =&gt; ({
-county: card.querySelector(&#39;[name=&quot;locationCounty&quot;]&#39;).value,
-address: card.querySelector(&#39;[name=&quot;locationAddress&quot;]&#39;).value.trim(),
-days: card.querySelector(&#39;[name=&quot;locationDays&quot;]&#39;).value.trim(),
-times: card.querySelector(&#39;[name=&quot;locationTimes&quot;]&#39;).value.trim()
-}));
-return {
-applicationVersion: &quot;2026&quot;,
-submittedAt: new Date().toISOString(),
-role: raw.role || &quot;&quot;,
-applicant: {
-managerName: raw.managerName || &quot;&quot;,
-farmName: raw.farmName || &quot;&quot;,
-mailingAddress: raw.mailingAddress || &quot;&quot;,
-city: raw.city || &quot;&quot;,
-state: raw.state || &quot;&quot;,
-zip: raw.zip || &quot;&quot;,
-telephone: raw.telephone || &quot;&quot;,
-email: raw.email || &quot;&quot;
-},
-locations,
-training: {
-date: raw.trainingDate || &quot;&quot;,
-trainerName: raw.trainerName || &quot;&quot;,
-type: raw.trainingType || &quot;&quot;,
-connectivity: raw.connectivity || &quot;&quot;
-},
-certifications: {
-agreementAccepted: Boolean(raw.agreementAccepted),
-civilRightsAccepted: Boolean(raw.civilRightsAccepted),
-truthCertification: Boolean(raw.truthCertification)
-},
-signature: {
-name: raw.signatureName || &quot;&quot;,
-date: raw.signatureDate || &quot;&quot;
+  const raw = Object.fromEntries(new FormData(form).entries());
+
+  const locations = [...document.querySelectorAll(".location-card")].map(card => ({
+    county: card.querySelector('[name="locationCounty"]').value,
+    address: card.querySelector('[name="locationAddress"]').value.trim(),
+    days: card.querySelector('[name="locationDays"]').value.trim(),
+    times: card.querySelector('[name="locationTimes"]').value.trim()
+  }));
+
+  return {
+    applicationVersion: "2026",
+    submittedAt: new Date().toISOString(),
+    role: raw.role || "",
+    applicant: {
+      managerName: raw.managerName || "",
+      farmName: raw.farmName || "",
+      mailingAddress: raw.mailingAddress || "",
+      city: raw.city || "",
+      state: raw.state || "",
+      zip: raw.zip || "",
+      telephone: raw.telephone || "",
+      email: raw.email || ""
+    },
+    locations,
+    training: {
+      date: raw.trainingDate || "",
+      trainerName: raw.trainerName || "",
+      type: raw.trainingType || "",
+      connectivity: raw.connectivity || ""
+    },
+    certifications: {
+      agreementAccepted: Boolean(raw.agreementAccepted),
+      civilRightsAccepted: Boolean(raw.civilRightsAccepted),
+      truthCertification: Boolean(raw.truthCertification)
+    },
+    signature: {
+      name: raw.signatureName || "",
+      date: raw.signatureDate || ""
+    }
+  };
 }
-};
-}
+
 function renderReview() {
-const data = collectFormData();
-const locationItems = data.locations.map((location, index) =&gt; `
-&lt;li&gt;
-&lt;strong&gt;Location ${index + 1}:&lt;/strong&gt;
-${escapeHtml(location.address)}, ${escapeHtml(location.county)} County —
-${escapeHtml(location.days)}, ${escapeHtml(location.times)}
-&lt;/li&gt;
-`).join(&quot;&quot;);
+  const data = collectFormData();
 
-reviewPanel.innerHTML = `
-&lt;section class=&quot;review-section&quot;&gt;
-&lt;h3&gt;Applicant&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Role:&lt;/strong&gt; ${escapeHtml(data.role)}&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt; ${escapeHtml(data.applicant.managerName)}&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Farm or market:&lt;/strong&gt; ${escapeHtml(data.applicant.farmName)}&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Mailing address:&lt;/strong&gt;
-${escapeHtml(data.applicant.mailingAddress)},
-${escapeHtml(data.applicant.city)},
-${escapeHtml(data.applicant.state)}
-${escapeHtml(data.applicant.zip)}
-&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Phone:&lt;/strong&gt; ${escapeHtml(data.applicant.telephone)}&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Email:&lt;/strong&gt; ${escapeHtml(data.applicant.email)}&lt;/p&gt;
-&lt;/section&gt;
-&lt;section class=&quot;review-section&quot;&gt;
-&lt;h3&gt;Selling locations&lt;/h3&gt;
-&lt;ul class=&quot;review-list&quot;&gt;${locationItems}&lt;/ul&gt;
-&lt;/section&gt;
-&lt;section class=&quot;review-section&quot;&gt;
-&lt;h3&gt;Training and connectivity&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Training date:&lt;/strong&gt; ${escapeHtml(data.training.date || &quot;Not
-provided&quot;)}&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Trainer:&lt;/strong&gt; ${escapeHtml(data.training.trainerName || &quot;Not
-provided&quot;)}&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Training type:&lt;/strong&gt; ${escapeHtml(data.training.type || &quot;Not
-provided&quot;)}&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Cellular service/Wi-Fi:&lt;/strong&gt;
-${escapeHtml(data.training.connectivity)}&lt;/p&gt;
-&lt;/section&gt;
-`;
+  const locationItems = data.locations.map((location, index) => `
+    <li>
+      <strong>Location ${index + 1}:</strong>
+      ${escapeHtml(location.address)}, ${escapeHtml(location.county)} County —
+      ${escapeHtml(location.days)}, ${escapeHtml(location.times)}
+    </li>
+  `).join("");
+
+  reviewPanel.innerHTML = `
+    <section class="review-section">
+      <h3>Applicant</h3>
+      <p><strong>Role:</strong> ${escapeHtml(data.role)}</p>
+      <p><strong>Name:</strong> ${escapeHtml(data.applicant.managerName)}</p>
+      <p><strong>Farm or market:</strong> ${escapeHtml(data.applicant.farmName)}</p>
+      <p><strong>Mailing address:</strong>
+        ${escapeHtml(data.applicant.mailingAddress)},
+        ${escapeHtml(data.applicant.city)},
+        ${escapeHtml(data.applicant.state)}
+        ${escapeHtml(data.applicant.zip)}
+      </p>
+      <p><strong>Phone:</strong> ${escapeHtml(data.applicant.telephone)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(data.applicant.email)}</p>
+    </section>
+
+    <section class="review-section">
+      <h3>Selling locations</h3>
+      <ul class="review-list">${locationItems}</ul>
+    </section>
+
+    <section class="review-section">
+      <h3>Training and connectivity</h3>
+      <p><strong>Training date:</strong> ${escapeHtml(data.training.date || "Not provided")}</p>
+      <p><strong>Trainer:</strong> ${escapeHtml(data.training.trainerName || "Not provided")}</p>
+      <p><strong>Training type:</strong> ${escapeHtml(data.training.type || "Not provided")}</p>
+      <p><strong>Cellular service/Wi-Fi:</strong> ${escapeHtml(data.training.connectivity)}</p>
+    </section>
+  `;
 }
+
 async function handleSubmit(event) {
-event.preventDefault();
-if (!validateStep(CONFIG.totalSteps)) return;
-const data = collectFormData();
-const applicationId = createApplicationId();
-data.applicationId = applicationId;
-submitBtn.disabled = true;
-submitBtn.textContent = &quot;Submitting...&quot;;
-try {
-if (CONFIG.submissionEndpoint) {
-const response = await fetch(CONFIG.submissionEndpoint, {
-method: &quot;POST&quot;,
-headers: { &quot;Content-Type&quot;: &quot;text/plain;charset=utf-8&quot; },
-body: JSON.stringify(data)
-});
-if (!response.ok) {
-throw new Error(`Submission failed with status ${response.status}`);
-}
-const result = await response.json();
-if (result.status !== &quot;success&quot;) {
+  event.preventDefault();
 
-throw new Error(result.message || &quot;Submission was not accepted.&quot;);
+  if (!validateStep(CONFIG.totalSteps)) return;
+
+  const data = collectFormData();
+  const applicationId = createApplicationId();
+  data.applicationId = applicationId;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+
+  try {
+    if (CONFIG.submissionEndpoint) {
+      const response = await fetch(CONFIG.submissionEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Submission failed with status ${response.status}`);
+      }
+
+      const result = await response.json();
+      if (result.status !== "success") {
+        throw new Error(result.message || "Submission was not accepted.");
+      }
+    } else {
+      // Development mode: saves locally when no endpoint has been configured.
+      console.warn("No submission endpoint configured. Application stored locally only.");
+      localStorage.setItem("wvWicLastSubmittedApplication", JSON.stringify(data));
+    }
+
+    lastSubmittedData = data;
+    localStorage.removeItem(CONFIG.storageKey);
+
+    form.classList.add("hidden");
+    successPanel.classList.remove("hidden");
+    confirmationText.textContent =
+      `Your confirmation number is ${applicationId}. Keep this number for your records.`;
+    successPanel.focus();
+  } catch (error) {
+    console.error(error);
+    statusMessage.textContent =
+      "We could not submit your application. Your progress is still saved on this device. Please try again.";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit application";
+  }
 }
-} else {
-// Development mode: saves locally when no endpoint has been configured.
-console.warn(&quot;No submission endpoint configured. Application stored locally
-only.&quot;);
-localStorage.setItem(&quot;wvWicLastSubmittedApplication&quot;, JSON.stringify(data));
-}
-lastSubmittedData = data;
-localStorage.removeItem(CONFIG.storageKey);
-form.classList.add(&quot;hidden&quot;);
-successPanel.classList.remove(&quot;hidden&quot;);
-confirmationText.textContent =
-`Your confirmation number is ${applicationId}. Keep this number for your records.`;
-successPanel.focus();
-} catch (error) {
-console.error(error);
-statusMessage.textContent =
-&quot;We could not submit your application. Your progress is still saved on this device.
-Please try again.&quot;;
-} finally {
-submitBtn.disabled = false;
-submitBtn.textContent = &quot;Submit application&quot;;
-}
-}
+
 function saveDraft(showMessage = false) {
-const draft = {
-currentStep,
-savedAt: new Date().toISOString(),
-data: collectFormData()
-};
-localStorage.setItem(CONFIG.storageKey, JSON.stringify(draft));
-if (showMessage) {
-statusMessage.textContent = &quot;Your progress was saved on this device.&quot;;
-setTimeout(() =&gt; {
-if (statusMessage.textContent.includes(&quot;saved&quot;)) statusMessage.textContent = &quot;&quot;;
-}, 3500);
+  const draft = {
+    currentStep,
+    savedAt: new Date().toISOString(),
+    data: collectFormData()
+  };
+
+  localStorage.setItem(CONFIG.storageKey, JSON.stringify(draft));
+
+  if (showMessage) {
+    statusMessage.textContent = "Your progress was saved on this device.";
+    setTimeout(() => {
+      if (statusMessage.textContent.includes("saved")) statusMessage.textContent = "";
+    }, 3500);
+  }
 }
-}
+
 function restoreDraft() {
-const saved = localStorage.getItem(CONFIG.storageKey);
-if (!saved) return;
-try {
-const draft = JSON.parse(saved);
-const data = draft.data || {};
-setRadioValue(&quot;role&quot;, data.role);
-setValue(&quot;managerName&quot;, data.applicant?.managerName);
-setValue(&quot;farmName&quot;, data.applicant?.farmName);
-setValue(&quot;mailingAddress&quot;, data.applicant?.mailingAddress);
-setValue(&quot;city&quot;, data.applicant?.city);
-setValue(&quot;state&quot;, data.applicant?.state || &quot;WV&quot;);
-setValue(&quot;zip&quot;, data.applicant?.zip);
-setValue(&quot;telephone&quot;, data.applicant?.telephone);
-setValue(&quot;email&quot;, data.applicant?.email);
+  const saved = localStorage.getItem(CONFIG.storageKey);
+  if (!saved) return;
 
-locationsContainer.innerHTML = &quot;&quot;;
-locationCounter = 0;
-(data.locations?.length ? data.locations : [{}]).forEach(location =&gt;
-addLocation(location));
-setValue(&quot;trainingDate&quot;, data.training?.date);
-setValue(&quot;trainerName&quot;, data.training?.trainerName);
-setRadioValue(&quot;trainingType&quot;, data.training?.type);
-setRadioValue(&quot;connectivity&quot;, data.training?.connectivity);
-document.getElementById(&quot;agreementAccepted&quot;).checked =
-Boolean(data.certifications?.agreementAccepted);
-document.getElementById(&quot;civilRightsAccepted&quot;).checked =
-Boolean(data.certifications?.civilRightsAccepted);
-document.getElementById(&quot;truthCertification&quot;).checked =
-Boolean(data.certifications?.truthCertification);
-setValue(&quot;signatureName&quot;, data.signature?.name);
-setValue(&quot;signatureDate&quot;, data.signature?.date);
-currentStep = Math.min(
-Math.max(Number(draft.currentStep) || 1, 1),
-CONFIG.totalSteps
-);
-connectivityWarning.classList.toggle(
-&quot;hidden&quot;,
-data.training?.connectivity !== &quot;No&quot;
-);
-statusMessage.textContent = &quot;A saved application was restored.&quot;;
-} catch (error) {
-console.warn(&quot;Saved draft could not be restored.&quot;, error);
+  try {
+    const draft = JSON.parse(saved);
+    const data = draft.data || {};
+
+    setRadioValue("role", data.role);
+    setValue("managerName", data.applicant?.managerName);
+    setValue("farmName", data.applicant?.farmName);
+    setValue("mailingAddress", data.applicant?.mailingAddress);
+    setValue("city", data.applicant?.city);
+    setValue("state", data.applicant?.state || "WV");
+    setValue("zip", data.applicant?.zip);
+    setValue("telephone", data.applicant?.telephone);
+    setValue("email", data.applicant?.email);
+
+    locationsContainer.innerHTML = "";
+    locationCounter = 0;
+    (data.locations?.length ? data.locations : [{}]).forEach(location => addLocation(location));
+
+    setValue("trainingDate", data.training?.date);
+    setValue("trainerName", data.training?.trainerName);
+    setRadioValue("trainingType", data.training?.type);
+    setRadioValue("connectivity", data.training?.connectivity);
+
+    document.getElementById("agreementAccepted").checked =
+      Boolean(data.certifications?.agreementAccepted);
+    document.getElementById("civilRightsAccepted").checked =
+      Boolean(data.certifications?.civilRightsAccepted);
+    document.getElementById("truthCertification").checked =
+      Boolean(data.certifications?.truthCertification);
+
+    setValue("signatureName", data.signature?.name);
+    setValue("signatureDate", data.signature?.date);
+
+    currentStep = Math.min(
+      Math.max(Number(draft.currentStep) || 1, 1),
+      CONFIG.totalSteps
+    );
+
+    connectivityWarning.classList.toggle(
+      "hidden",
+      data.training?.connectivity !== "No"
+    );
+
+    statusMessage.textContent = "A saved application was restored.";
+  } catch (error) {
+    console.warn("Saved draft could not be restored.", error);
+  }
 }
-}
+
 function setValue(id, value) {
-if (value === undefined || value === null) return;
-const element = document.getElementById(id);
-if (element) element.value = value;
+  if (value === undefined || value === null) return;
+  const element = document.getElementById(id);
+  if (element) element.value = value;
 }
-function setRadioValue(name, value) {
-if (!value) return;
-const radio =
-document.querySelector(`input[name=&quot;${name}&quot;][value=&quot;${CSS.escape(value)}&quot;]`);
-if (radio) radio.checked = true;
-}
-function setDefaultSignatureDate() {
-const signatureDate = document.getElementById(&quot;signatureDate&quot;);
-if (!signatureDate.value) {
-signatureDate.value = new Date().toISOString().slice(0, 10);
-}
-}
-function downloadApplicationCopy() {
-if (!lastSubmittedData) return;
-const blob = new Blob(
-[JSON.stringify(lastSubmittedData, null, 2)],
 
-{ type: &quot;application/json&quot; }
-);
-const url = URL.createObjectURL(blob);
-const link = document.createElement(&quot;a&quot;);
-link.href = url;
-link.download = `${lastSubmittedData.applicationId}-wv-wic-farmer-application.json`;
-link.click();
-URL.revokeObjectURL(url);
+function setRadioValue(name, value) {
+  if (!value) return;
+  const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(value)}"]`);
+  if (radio) radio.checked = true;
 }
+
+function setDefaultSignatureDate() {
+  const signatureDate = document.getElementById("signatureDate");
+  if (!signatureDate.value) {
+    signatureDate.value = new Date().toISOString().slice(0, 10);
+  }
+}
+
+function downloadApplicationCopy() {
+  if (!lastSubmittedData) return;
+
+  const blob = new Blob(
+    [JSON.stringify(lastSubmittedData, null, 2)],
+    { type: "application/json" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${lastSubmittedData.applicationId}-wv-wic-farmer-application.json`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 function resetApplication() {
-localStorage.removeItem(CONFIG.storageKey);
-localStorage.removeItem(&quot;wvWicLastSubmittedApplication&quot;);
-window.location.reload();
+  localStorage.removeItem(CONFIG.storageKey);
+  localStorage.removeItem("wvWicLastSubmittedApplication");
+  window.location.reload();
 }
+
 function createApplicationId() {
-const now = new Date();
-const datePart = now.toISOString().slice(0, 10).replaceAll(&quot;-&quot;, &quot;&quot;);
-const randomPart = Math.random().toString(36).slice(2, 7).toUpperCase();
-return `WVFMNP-${datePart}-${randomPart}`;
+  const now = new Date();
+  const datePart = now.toISOString().slice(0, 10).replaceAll("-", "");
+  const randomPart = Math.random().toString(36).slice(2, 7).toUpperCase();
+  return `WVFMNP-${datePart}-${randomPart}`;
 }
+
 function escapeHtml(value) {
-return String(value ?? &quot;&quot;)
-.replaceAll(&quot;&amp;&quot;, &quot;&amp;amp;&quot;)
-.replaceAll(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)
-.replaceAll(&quot;&gt;&quot;, &quot;&amp;gt;&quot;)
-.replaceAll(&#39;&quot;&#39;, &quot;&amp;quot;&quot;)
-.replaceAll(&quot;&#39;&quot;, &quot;&amp;#039;&quot;);
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
