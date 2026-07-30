@@ -41,8 +41,12 @@ let locationCounter = 0;
 let lastSubmittedData = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-  addLocation();
   restoreDraft();
+
+  if (locationsContainer.children.length === 0) {
+    addLocation();
+  }
+
   setDefaultSignatureDate();
   updateStepUI();
   bindEvents();
