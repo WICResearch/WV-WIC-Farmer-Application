@@ -109,7 +109,10 @@ function updateStepUI() {
   stepLabel.textContent = `Step ${currentStep} of ${CONFIG.totalSteps}`;
   progressPercent.textContent = `${percent}%`;
   progressBar.style.width = `${percent}%`;
-
+progressBar.parentElement.setAttribute("role", "progressbar");
+progressBar.parentElement.setAttribute("aria-valuemin", "0");
+progressBar.parentElement.setAttribute("aria-valuemax", "100");
+progressBar.parentElement.setAttribute("aria-valuenow", String(percent));
   backBtn.classList.toggle("hidden", currentStep === 1);
   nextBtn.classList.toggle("hidden", currentStep === CONFIG.totalSteps);
   submitBtn.classList.toggle("hidden", currentStep !== CONFIG.totalSteps);
