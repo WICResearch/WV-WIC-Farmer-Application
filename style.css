@@ -1,258 +1,440 @@
 :root {
---wic-blue: #005a78;
---wic-blue-dark: #003f56;
---wic-green: #78be20;
---wic-green-dark: #4f7d12;
---surface: #ffffff;
---surface-soft: #f5f8f9;
---text: #1f2933;
---muted: #59636e;
---border: #c7d1d6;
---danger: #a61b1b;
---warning-bg: #fff5d6;
---warning-border: #d19b00;
---focus: #ffbf47;
---radius: 14px;
---shadow: 0 8px 24px rgba(0, 63, 86, 0.12);
+  --wic-blue: #005a78;
+  --wic-blue-dark: #003f56;
+  --wic-green: #78be20;
+  --wic-green-dark: #4f7d12;
+
+  --surface: #ffffff;
+  --surface-soft: #f6f9fa;
+  --text: #1f2933;
+  --muted: #59636e;
+  --border: #d5dee2;
+
+  --danger: #a61b1b;
+  --warning-bg: #fff5d6;
+  --warning-border: #d19b00;
+  --focus: #ffbf47;
+
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(0, 63, 86, 0.07);
 }
 
 * {
-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-margin: 0;
-font-family: Arial, Helvetica, sans-serif;
-color: var(--text);
-background: var(--surface-soft);
-line-height: 1.55;
-  
-background-image: url("WIC_Embellishments_01.png");
-background-repeat: no-repeat;
-background-position: left bottom;
-background-size: 320px; 
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: var(--surface-soft);
+  line-height: 1.6;
+
+  background-image: url("WIC_Embellishments_01.png");
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 280px;
 }
 
 a {
-color: var(--wic-blue);
+  color: var(--wic-blue);
 }
 
 button,
 input,
 select,
 textarea {
-font: inherit;
+  font: inherit;
 }
 
 button,
 label,
 summary {
-touch-action: manipulation;
+  touch-action: manipulation;
 }
 
+/* =========================
+   ACCESSIBILITY
+========================= */
+
 .skip-link {
-position: absolute;
-left: 1rem;
-top: -4rem;
-background: #000;
-color: #fff;
-padding: 0.75rem 1rem;
-z-index: 1000;
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: #000;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  z-index: 1000;
 }
 
 .skip-link:focus {
-top: 1rem;
+  top: 1rem;
 }
 
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================
+   HEADER
+========================= */
+
 .site-header {
-background: var(--surface);
-border-bottom: 4px solid var(--wic-green);
-padding: 1rem clamp(1rem, 4vw, 3rem);
-display: flex;
-justify-content: space-between;
-align-items: center;
-gap: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+
+  padding: 26px clamp(24px, 4vw, 56px) 30px;
+
+  background: var(--surface);
+  border-bottom: 4px solid var(--wic-green);
+
+  box-shadow: 0 3px 14px rgba(0, 63, 86, 0.05);
 }
 
 .brand-wrap {
-display: flex;
-align-items: center;
-gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  min-width: 0;
 }
 
-.brand-mark {
-width: 58px;
-height: 58px;
-border-radius: 12px;
-background: var(--wic-blue);
-color: white;
-display: grid;
-place-items: center;
-font-size: 1.4rem;
-font-weight: 800;
+.official-logos {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
 }
 
-.site-header h1 {
-margin: 0.1rem 0 0;
-font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+.health-logo {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  max-height: 70px;
+  object-fit: contain;
+}
+
+.wic-logo {
+  display: block;
+  width: 115px;
+  max-width: 100%;
+  height: auto;
+  max-height: 66px;
+  object-fit: contain;
+}
+
+.logo-divider {
+  width: 1px;
+  height: 52px;
+  background: #d6e0e4;
+}
+
+.portal-title {
+  padding-left: 30px;
+  border-left: 1px solid #d6e0e4;
+}
+
+.portal-title h1 {
+  margin: 4px 0 0;
+  color: var(--wic-blue-dark);
+  font-size: clamp(1.35rem, 2.3vw, 1.9rem);
+  line-height: 1.2;
 }
 
 .eyebrow,
 .step-kicker {
-text-transform: uppercase;
-letter-spacing: 0.08em;
-font-size: 0.78rem;
-font-weight: 800;
-color: var(--wic-blue);
-margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--wic-blue);
+  margin: 0;
 }
+
+.portal-title .eyebrow {
+  color: var(--wic-green-dark);
+}
+
+/* =========================
+   MAIN PAGE
+========================= */
 
 .page-shell {
-width: min(1040px, calc(100% - 2rem));
-margin: 2rem auto;
+  width: min(1200px, calc(100% - 3rem));
+  margin: 0 auto;
+  padding-top: 68px;
+  padding-bottom: 90px;
 }
 
+/* =========================
+   INTRO AREA
+========================= */
+
 .intro-panel {
-margin-bottom: 1.5rem;
+  margin-bottom: 58px;
+  max-width: 1100px;
 }
 
 .intro-panel h2 {
-font-size: clamp(1.8rem, 4vw, 2.8rem);
-line-height: 1.15;
-margin: 0.4rem 0 0.8rem;
+  max-width: 980px;
+  font-size: clamp(2.2rem, 4.5vw, 3.7rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+
+  margin: 0.55rem 0 1.35rem;
 }
+
+.intro-panel > p:not(.eyebrow) {
+  max-width: 980px;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+/* =========================
+   NOTICE / CALLOUT
+========================= */
+
+.notice,
+.warning {
+  max-width: 1000px;
+
+  border-left: 5px solid var(--wic-blue);
+  background: #eaf5f8;
+
+  padding: 18px 22px;
+  border-radius: 10px;
+
+  margin: 28px 0 20px;
+}
+
+.warning {
+  border-color: var(--warning-border);
+  background: var(--warning-bg);
+}
+
+/* =========================
+   APPLICATION CONTAINER
+========================= */
 
 .application-card {
-background: var(--surface);
-border-radius: var(--radius);
-box-shadow: var(--shadow);
-padding: clamp(1rem, 4vw, 2.5rem);
+  background: var(--surface);
+
+  border: 1px solid #e1e7ea;
+  border-radius: 18px;
+
+  box-shadow: var(--shadow);
+
+  padding: clamp(2rem, 4vw, 3.5rem);
+
+  margin-top: 62px;
 }
 
+/* =========================
+   PROGRESS
+========================= */
+
 .progress-wrap {
-margin-bottom: 2rem;
+  margin-bottom: 58px;
 }
 
 .progress-label-row {
-display: flex;
-justify-content: space-between;
-font-weight: 700;
-margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+
+  font-weight: 700;
+
+  margin-bottom: 12px;
 }
 
 .progress-track {
-height: 12px;
-background: #dde6e9;
-border-radius: 999px;
-overflow: hidden;
+  height: 9px;
+
+  background: #dde6e9;
+
+  border-radius: 999px;
+  overflow: hidden;
 }
 
 .progress-bar {
-height: 100%;
-width: 14%;
-background: var(--wic-green);
-transition: width 180ms ease;
+  height: 100%;
+  width: 14%;
+
+  background: var(--wic-green);
+
+  transition: width 180ms ease;
 }
 
+/* =========================
+   FORM STEP
+========================= */
+
 .form-step {
-display: none;
+  display: none;
 }
 
 .form-step.is-active {
-display: block;
+  display: block;
 }
 
 .form-step h2 {
-font-size: clamp(1.6rem, 3vw, 2.2rem);
-margin: 0.25rem 0 0.4rem;
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  line-height: 1.15;
+
+  margin: 0.4rem 0 0.7rem;
+}
+
+.step-kicker {
+  margin-bottom: 8px;
 }
 
 .section-intro {
-color: var(--muted);
-margin-top: 0;
+  color: var(--muted);
+
+  margin-top: 0;
+  margin-bottom: 34px;
+
+  max-width: 800px;
+
+  font-size: 1.02rem;
 }
 
+/* =========================
+   CHOICE CARDS
+========================= */
+
 .choice-grid {
-border: 0;
-padding: 0;
-display: grid;
-gap: 1rem;
+  border: 0;
+  padding: 0;
+
+  display: grid;
+  gap: 1.25rem;
 }
 
 .choice-card {
-display: grid;
-grid-template-columns: auto 1fr;
-column-gap: 0.9rem;
-row-gap: 0.2rem;
-border: 2px solid var(--border);
-border-radius: var(--radius);
-padding: 1.1rem;
-cursor: pointer;
-background: var(--surface);
+  display: grid;
+
+  grid-template-columns: auto 1fr;
+
+  column-gap: 1rem;
+  row-gap: 0.3rem;
+
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+
+  padding: 1.35rem 1.4rem;
+
+  cursor: pointer;
+
+  background: var(--surface);
+
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
 }
 
 .choice-card:hover {
-border-color: var(--wic-blue);
+  border-color: var(--wic-blue);
+
+  box-shadow: 0 5px 18px rgba(0, 90, 120, 0.08);
+
+  transform: translateY(-1px);
 }
 
 .choice-card:has(input:checked) {
-border-color: var(--wic-green-dark);
-background: #f4faea;
+  border-color: var(--wic-green-dark);
+  background: #f5faed;
 }
 
 .choice-card input {
-grid-row: 1 / span 2;
-margin-top: 0.3rem;
-width: 22px;
-height: 22px;
+  grid-row: 1 / span 2;
+
+  margin-top: 0.3rem;
+
+  width: 22px;
+  height: 22px;
 }
 
 .choice-title {
-font-weight: 800;
-font-size: 1.05rem;
+  font-weight: 800;
+  font-size: 1.08rem;
 }
 
 .choice-description {
-color: var(--muted);
+  color: var(--muted);
+  line-height: 1.5;
 }
 
+/* =========================
+   FORM LAYOUT
+========================= */
+
 .form-grid {
-display: grid;
-gap: 1rem;
+  display: grid;
+  gap: 1.4rem 1.5rem;
 }
 
 .two-column {
-grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .full-width {
-grid-column: 1 / -1;
+  grid-column: 1 / -1;
 }
 
 .field {
-display: flex;
-flex-direction: column;
-gap: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
 }
 
 .field label,
 fieldset legend {
-font-weight: 800;
+  font-weight: 700;
 }
 
 .field input,
 .field select,
 .field textarea {
-width: 100%;
-border: 2px solid var(--border);
-border-radius: 10px;
-padding: 0.8rem 0.9rem;
-min-height: 48px;
-background: white;
+  width: 100%;
+
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+
+  padding: 0.85rem 0.95rem;
+
+  min-height: 50px;
+
+  background: white;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: #aebbc1;
 }
 
 .field input:focus,
@@ -261,347 +443,311 @@ background: white;
 button:focus,
 summary:focus,
 .choice-card:focus-within {
-outline: 4px solid var(--focus);
-outline-offset: 2px;
+  outline: 4px solid var(--focus);
+  outline-offset: 2px;
 }
 
 .field input[aria-invalid="true"],
 .field select[aria-invalid="true"] {
-border-color: var(--danger);
+  border-color: var(--danger);
 }
 
 .field-error {
-color: var(--danger);
-font-weight: 700;
-font-size: 0.92rem;
+  color: var(--danger);
+  font-weight: 700;
+  font-size: 0.92rem;
 }
 
+.help-text {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* =========================
+   LOCATIONS
+========================= */
+
 .location-card {
-border: 2px solid var(--border);
-border-radius: var(--radius);
-padding: 1rem;
-margin-bottom: 1rem;
-background: #fbfcfc;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  padding: 1.4rem;
+
+  margin-bottom: 1.4rem;
+
+  background: #fbfcfc;
 }
 
 .location-card-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-gap: 1rem;
-margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 1rem;
+
+  margin-bottom: 1.2rem;
 }
 
 .location-card h3 {
-margin: 0;
+  margin: 0;
 }
 
 .remove-location {
-border: 0;
-background: transparent;
-color: var(--danger);
-text-decoration: underline;
-cursor: pointer;
-font-weight: 700;
+  border: 0;
+
+  background: transparent;
+
+  color: var(--danger);
+
+  text-decoration: underline;
+
+  cursor: pointer;
+
+  font-weight: 700;
 }
 
+/* =========================
+   FIELDSETS / INLINE OPTIONS
+========================= */
+
 .stacked-fieldset {
-border: 0;
-padding: 0;
-margin: 1.5rem 0;
+  border: 0;
+  padding: 0;
+
+  margin: 2rem 0;
 }
 
 .inline-choice {
-display: flex;
-gap: 0.65rem;
-align-items: center;
-padding: 0.55rem 0;
+  display: flex;
+
+  gap: 0.7rem;
+  align-items: center;
+
+  padding: 0.7rem 0;
 }
 
 .inline-choice input,
 .certification-box input {
-width: 22px;
-height: 22px;
-flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+
+  flex: 0 0 auto;
 }
 
-.notice,
-.warning {
-border-left: 6px solid var(--wic-blue);
-background: #eaf5f8;
-padding: 1rem;
-border-radius: 8px;
-margin: 1rem 0;
-}
-
-.warning {
-border-color: var(--warning-border);
-background: var(--warning-bg);
-}
+/* =========================
+   AGREEMENTS / DETAILS
+========================= */
 
 details {
-border: 2px solid var(--border);
-border-radius: 10px;
-margin: 0.8rem 0;
-overflow: hidden;
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  margin: 1rem 0;
+
+  overflow: hidden;
+
+  background: white;
 }
 
 summary {
-cursor: pointer;
-font-weight: 800;
-padding: 1rem;
-background: #f7fafb;
+  cursor: pointer;
+
+  font-weight: 800;
+
+  padding: 1.1rem 1.2rem;
+
+  background: #f7fafb;
 }
 
 details > :not(summary) {
-margin-left: 1rem;
-margin-right: 1rem;
+  margin-left: 1.2rem;
+  margin-right: 1.2rem;
 }
 
 .agreement-list,
 .legal-text {
-padding-bottom: 1rem;
+  padding-bottom: 1.2rem;
 }
+
+/* =========================
+   CERTIFICATION
+========================= */
 
 .certification-box {
-display: flex;
-gap: 0.75rem;
-align-items: flex-start;
-border: 2px solid var(--wic-green);
-border-radius: 10px;
-padding: 1rem;
-margin-top: 1.25rem;
-background: #f4faea;
+  display: flex;
+
+  gap: 0.85rem;
+
+  align-items: flex-start;
+
+  border: 1.5px solid var(--wic-green);
+
+  border-radius: 12px;
+
+  padding: 1.25rem;
+
+  margin-top: 1.8rem;
+
+  background: #f5faed;
 }
 
+/* =========================
+   REVIEW
+========================= */
+
 .review-panel {
-display: grid;
-gap: 0.8rem;
-margin: 1rem 0 1.5rem;
+  display: grid;
+
+  gap: 1rem;
+
+  margin: 1.5rem 0 2rem;
 }
 
 .review-section {
-border: 1px solid var(--border);
-border-radius: 10px;
-padding: 1rem;
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  padding: 1.25rem 1.4rem;
+
+  background: #fbfcfc;
 }
 
 .review-section h3 {
-margin-top: 0;
-color: var(--wic-blue-dark);
+  margin-top: 0;
+
+  color: var(--wic-blue-dark);
 }
 
 .review-list {
-margin: 0;
-padding-left: 1.2rem;
+  margin: 0;
+
+  padding-left: 1.2rem;
 }
 
 .signature-section {
-margin-top: 1.5rem;
+  margin-top: 2rem;
 }
+
+/* =========================
+   BUTTONS
+========================= */
 
 .form-actions,
 .success-actions {
-display: flex;
-justify-content: space-between;
-gap: 0.75rem;
-margin-top: 2rem;
-flex-wrap: wrap;
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-top: 3rem;
+
+  padding-top: 1.5rem;
+
+  border-top: 1px solid #e6ecee;
+
+  flex-wrap: wrap;
 }
 
 .button {
-border: 0;
-border-radius: 10px;
-min-height: 48px;
-padding: 0.75rem 1.1rem;
-font-weight: 800;
-cursor: pointer;
+  border: 0;
+
+  border-radius: 10px;
+
+  min-height: 48px;
+
+  padding: 0.75rem 1.25rem;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
 }
 
 .button-primary {
-background: var(--wic-green-dark);
-color: white;
+  background: var(--wic-green-dark);
+  color: white;
 }
 
 .button-primary:hover {
-background: #3f650f;
+  background: #3f650f;
 }
 
 .button-secondary {
-background: white;
-color: var(--wic-blue-dark);
-border: 2px solid var(--wic-blue);
+  background: white;
+
+  color: var(--wic-blue-dark);
+
+  border: 2px solid var(--wic-blue);
 }
 
 .compact {
-min-height: 40px;
-padding: 0.5rem 0.75rem;
+  min-height: 42px;
+
+  padding: 0.55rem 0.9rem;
 }
+
+/* =========================
+   STATUS / SUCCESS
+========================= */
 
 .status-message {
-min-height: 1.5rem;
-color: var(--wic-green-dark);
-font-weight: 700;
-}
+  min-height: 1.5rem;
 
-.help-text {
-color: var(--muted);
-font-size: 0.92rem;
+  color: var(--wic-green-dark);
+
+  font-weight: 700;
 }
 
 .success-panel {
-text-align: center;
-padding: 1rem;
+  text-align: center;
+
+  padding: 2rem 1rem;
 }
+
+/* =========================
+   FOOTER
+========================= */
 
 .site-footer {
-padding: 2rem 1rem;
-text-align: center;
-color: var(--muted);
-font-size: 0.9rem;
+  padding: 2.5rem 1rem;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
 }
 
-.hidden {
-display: none !important;
-}
-
-.sr-only {
-position: absolute !important;
-width: 1px !important;
-height: 1px !important;
-padding: 0 !important;
-margin: -1px !important;
-overflow: hidden !important;
-clip: rect(0, 0, 0, 0) !important;
-white-space: nowrap !important;
-border: 0 !important;
-}
-
-@media (max-width: 720px) {
-.site-header {
-align-items: flex-start;
-}
-
-.brand-mark {
-width: 48px;
-height: 48px;
-}
-
-.two-column {
-grid-template-columns: 1fr;
-}
-
-.full-width {
-grid-column: auto;
-}
-
-.form-actions .button,
-.success-actions .button {
-width: 100%;
-}
-
-.site-header .compact {
-width: auto;
-}
-}
-
-@media print {
-.site-header,
-.intro-panel,
-.progress-wrap,
-.form-actions,
-.site-footer,
-#saveExitBtn,
-.success-actions {
-display: none !important;
-}
-
-body {
-background: white;
-}
-
-.application-card {
-box-shadow: none;
-padding: 0;
-}
-}
-/* Clean WV WIC header */
-
-.site-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  padding: 18px clamp(18px, 4vw, 48px);
-  background: #ffffff;
-  border-bottom: 5px solid var(--wic-green);
-  box-shadow: 0 4px 18px rgba(0, 63, 86, 0.12);
-}
-
-.brand-wrap {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  min-width: 0;
-}
-
-.official-logos {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-shrink: 0;
-}
-
-.health-logo {
-  display: block;
-  width: 210px;
-  max-width: 100%;
-  height: auto;
-  max-height: 60px;
-  object-fit: contain;
-}
-
-.wic-logo {
-  display: block;
-  width: 105px;
-  max-width: 100%;
-  height: auto;
-  max-height: 60px;
-  object-fit: contain;
-}
-
-.logo-divider {
-  width: 2px;
-  height: 48px;
-  background: #d6e0e4;
-}
-
-.portal-title {
-  padding-left: 24px;
-  border-left: 1px solid #d6e0e4;
-}
-
-.portal-title h1 {
-  margin: 2px 0 0;
-  color: var(--wic-blue-dark);
-  font-size: clamp(1.25rem, 2.4vw, 1.8rem);
-}
-
-.portal-title .eyebrow {
-  color: var(--wic-green-dark);
-}
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 760px) {
+
   .site-header {
     flex-direction: column;
     align-items: stretch;
-    padding: 16px;
+
+    padding: 18px;
   }
 
   .brand-wrap {
     flex-direction: column;
+
     align-items: flex-start;
-    gap: 14px;
+
+    gap: 16px;
   }
 
   .official-logos {
@@ -610,23 +756,93 @@ padding: 0;
 
   .health-logo {
     width: 180px;
+
     max-height: 52px;
   }
 
   .wic-logo {
     width: 82px;
+
     max-height: 48px;
   }
 
   .portal-title {
     width: 100%;
+
     padding-left: 0;
-    padding-top: 12px;
+    padding-top: 14px;
+
     border-left: 0;
     border-top: 1px solid #d6e0e4;
   }
 
   #saveExitBtn {
     align-self: flex-start;
+  }
+
+  .page-shell {
+    width: min(100% - 2rem, 1200px);
+
+    padding-top: 42px;
+  }
+
+  .intro-panel {
+    margin-bottom: 42px;
+  }
+
+  .application-card {
+    padding: 1.5rem;
+
+    margin-top: 42px;
+  }
+
+  .progress-wrap {
+    margin-bottom: 42px;
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .form-actions .button,
+  .success-actions .button {
+    width: 100%;
+  }
+
+  .site-header .compact {
+    width: auto;
+  }
+}
+
+/* =========================
+   PRINT
+========================= */
+
+@media print {
+
+  .site-header,
+  .intro-panel,
+  .progress-wrap,
+  .form-actions,
+  .site-footer,
+  #saveExitBtn,
+  .success-actions {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .application-card {
+    box-shadow: none;
+
+    border: 0;
+
+    padding: 0;
   }
 }
