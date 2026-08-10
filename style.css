@@ -846,3 +846,337 @@ details > :not(summary) {
     padding: 0;
   }
 }
+/* =====================================================
+   2026 WV WIC FARMER PORTAL - VISUAL LAYOUT OVERRIDES
+===================================================== */
+
+/* Give the header more breathing room */
+.site-header {
+  padding-top: 32px;
+  padding-bottom: 34px;
+  box-shadow: none;
+}
+
+/* Much more open main page */
+.page-shell {
+  width: min(1240px, calc(100% - 4rem));
+  padding-top: 90px;
+  padding-bottom: 120px;
+}
+
+/* Hero section */
+.intro-panel {
+  max-width: 1180px;
+  margin-bottom: 90px;
+}
+
+.intro-panel .eyebrow {
+  margin-bottom: 18px;
+}
+
+.intro-panel h2 {
+  max-width: 1000px;
+  margin-top: 0;
+  margin-bottom: 28px;
+
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.intro-panel > p:not(.eyebrow) {
+  max-width: 900px;
+  font-size: 1.12rem;
+  line-height: 1.75;
+}
+
+/* Make notice feel like a small callout rather than a giant rectangle */
+.intro-panel .notice {
+  max-width: 900px;
+  margin-top: 34px;
+  margin-bottom: 28px;
+
+  padding: 20px 24px;
+
+  background: #edf7f9;
+
+  border: 0;
+  border-left: 4px solid var(--wic-blue);
+  border-radius: 4px 12px 12px 4px;
+}
+
+/* =====================================================
+   REMOVE THE GIANT APPLICATION BOX
+===================================================== */
+
+.application-card {
+  margin-top: 0;
+  padding: 0;
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 0;
+
+  box-shadow: none;
+}
+
+/* Progress gets its own small clean area */
+.progress-wrap {
+  background: #ffffff;
+
+  border: 1px solid #e3eaed;
+  border-radius: 14px;
+
+  padding: 24px 30px;
+
+  margin-bottom: 42px;
+
+  box-shadow: 0 4px 16px rgba(0, 63, 86, 0.04);
+}
+
+.progress-label-row {
+  margin-bottom: 14px;
+}
+
+.progress-track {
+  height: 8px;
+}
+
+/* Each active step becomes the actual form surface */
+.form-step.is-active {
+  display: block;
+
+  background: #ffffff;
+
+  border: 1px solid #e3eaed;
+  border-radius: 18px;
+
+  padding: clamp(2rem, 4vw, 3.75rem);
+
+  box-shadow: 0 8px 26px rgba(0, 63, 86, 0.055);
+}
+
+/* More space around step heading */
+.step-kicker {
+  margin-bottom: 14px;
+}
+
+.form-step h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+}
+
+.section-intro {
+  max-width: 720px;
+
+  margin-bottom: 46px;
+
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* =====================================================
+   FORM FIELDS - LIGHTER / LESS BOXY
+===================================================== */
+
+.form-grid {
+  gap: 28px 30px;
+}
+
+.field {
+  gap: 8px;
+}
+
+.field label,
+fieldset legend {
+  font-size: 0.95rem;
+}
+
+.field input,
+.field select,
+.field textarea {
+  min-height: 54px;
+
+  padding: 14px 16px;
+
+  border: 1px solid #bcc9cf;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--wic-blue);
+
+  outline: none;
+
+  box-shadow: 0 0 0 3px rgba(0, 90, 120, 0.14);
+}
+
+/* =====================================================
+   ROLE CHOICES
+===================================================== */
+
+.choice-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.choice-card {
+  display: grid;
+
+  grid-template-columns: 1fr;
+
+  align-content: start;
+
+  min-height: 170px;
+
+  padding: 24px;
+
+  border: 1px solid #d4dee2;
+  border-radius: 14px;
+
+  box-shadow: none;
+}
+
+.choice-card input {
+  grid-row: auto;
+
+  margin: 0 0 18px;
+
+  width: 21px;
+  height: 21px;
+}
+
+.choice-title {
+  font-size: 1.1rem;
+
+  margin-bottom: 6px;
+}
+
+.choice-description {
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+/* =====================================================
+   BUTTON AREA
+===================================================== */
+
+.form-actions,
+.success-actions {
+  margin-top: 54px;
+
+  padding-top: 28px;
+
+  border-top: 1px solid #edf1f2;
+}
+
+.button {
+  min-height: 50px;
+
+  padding: 12px 22px;
+
+  border-radius: 8px;
+}
+
+/* =====================================================
+   LOCATIONS / AGREEMENTS / REVIEW
+===================================================== */
+
+.location-card {
+  padding: 24px;
+
+  margin-bottom: 20px;
+
+  border: 1px solid #dce4e7;
+  border-radius: 12px;
+
+  background: #fafcfc;
+}
+
+details {
+  margin: 14px 0;
+
+  border: 1px solid #dce4e7;
+  border-radius: 10px;
+}
+
+summary {
+  padding: 18px 20px;
+
+  background: #fafcfc;
+}
+
+.review-section {
+  padding: 22px 24px;
+
+  background: #fafcfc;
+
+  border: 1px solid #dce4e7;
+}
+
+/* =====================================================
+   DESKTOP SPACING
+===================================================== */
+
+@media (min-width: 1000px) {
+
+  .intro-panel {
+    padding-left: 10px;
+  }
+
+  .progress-wrap {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 760px) {
+
+  .page-shell {
+    width: calc(100% - 2rem);
+
+    padding-top: 46px;
+    padding-bottom: 70px;
+  }
+
+  .intro-panel {
+    margin-bottom: 52px;
+  }
+
+  .intro-panel h2 {
+    font-size: 2.4rem;
+  }
+
+  .application-card {
+    margin-top: 0;
+  }
+
+  .progress-wrap {
+    padding: 20px;
+
+    margin-bottom: 24px;
+  }
+
+  .form-step.is-active {
+    padding: 24px 20px;
+  }
+
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .choice-card {
+    min-height: auto;
+  }
+}
