@@ -35,7 +35,13 @@ const connectivityWarning = document.getElementById("connectivityWarning");
 const reviewPanel = document.getElementById("reviewPanel");
 const successPanel = document.getElementById("successPanel");
 const confirmationText = document.getElementById("confirmationText");
+const confirmationText = document.getElementById("confirmationText");
 
+const introScreen = document.getElementById("introScreen");
+const applicationCard = document.getElementById("applicationCard");
+const beginApplicationBtn = document.getElementById("beginApplicationBtn");
+
+let currentStep = 1;
 let currentStep = 1;
 let locationCounter = 0;
 let lastSubmittedData = null;
@@ -53,6 +59,26 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function bindEvents() {
+
+  beginApplicationBtn.addEventListener("click", () => {
+    introScreen.classList.add("hidden");
+    applicationCard.classList.remove("hidden");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    setTimeout(() => {
+      const firstHeading = applicationCard.querySelector(".form-step.is-active h2");
+
+      if (firstHeading) {
+        firstHeading.setAttribute("tabindex", "-1");
+        firstHeading.focus();
+      }
+    }, 300);
+  });
+
   backBtn.addEventListener("click", goBack);
   nextBtn.addEventListener("click", goNext);
   addLocationBtn.addEventListener("click", () => addLocation());
