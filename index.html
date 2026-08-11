@@ -48,26 +48,57 @@ Save progress
 
 
 <main id="main-content" class="page-shell">
-<section class="intro-panel" aria-labelledby="application-title">
-<p class="eyebrow">2026 Application and Agreement</p>
-<h2 id="application-title">Become an Authorized WV WIC Farmer</h2>
-<p>
-Apply to accept WIC Cash Value Benefits and Farmers Market Nutrition Program benefits. This application takes about 8-10 minutes to complete.
-</p>
-<div class="notice" role="note">
-<strong>Before you begin:</strong>
-To receive authorization, you must have cellular service or Wi-Fi at your
-selling location and be willing to use a personal phone or mobile device
-to process electronic transactions.
-</div>
-<p class="help-text">
-Questions? Call <a href="tel:13045581115">304-558-1115</a> or email
-<a href="mailto:wicvu@wic.gov">wicvu@wic.gov</a>.
-</p>
+<section
+  id="introScreen"
+  class="intro-screen"
+  aria-labelledby="application-title"
+>
+  <div class="intro-content">
+
+    <p class="eyebrow">2026 Application and Agreement</p>
+
+    <h2 id="application-title">
+      Become an Authorized WV WIC Farmer
+    </h2>
+
+    <p class="intro-description">
+      Apply to accept WIC Cash Value Benefits and Farmers Market Nutrition
+      Program benefits. This application takes about 8–10 minutes to complete.
+    </p>
+
+    <div class="intro-notice">
+      <h3>Before you begin</h3>
+
+      <p>
+        To receive authorization, you must have cellular service or Wi-Fi at
+        your selling location and be willing to use a personal phone or mobile
+        device to process electronic transactions.
+      </p>
+    </div>
+
+    <p class="intro-help">
+      Questions?
+      Call <a href="tel:13045581115">304-558-1115</a>
+      or email
+      <a href="mailto:wicvu@wic.gov">wicvu@wic.gov</a>.
+    </p>
+
+    <button
+      id="beginApplicationBtn"
+      class="button button-primary begin-button"
+      type="button"
+    >
+      Begin Application
+    </button>
+
+  </div>
 </section>
 
-<section class="application-card" aria-label="Application form">
-<div class="progress-wrap">
+<section
+  id="applicationCard"
+  class="application-card hidden"
+  aria-label="Application form"
+>
 <div class="progress-label-row">
 <span id="stepLabel">Step 1 of 7</span>
 <span id="progressPercent">14%</span>
