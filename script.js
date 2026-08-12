@@ -60,24 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function bindEvents() {
 
-  beginApplicationBtn.addEventListener("click", () => {
-    introScreen.classList.add("hidden");
-    applicationCard.classList.remove("hidden");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-    setTimeout(() => {
-      const firstHeading = applicationCard.querySelector(".form-step.is-active h2");
-
-      if (firstHeading) {
-        firstHeading.setAttribute("tabindex", "-1");
-        firstHeading.focus();
-      }
-    }, 300);
-  });
+beginApplicationBtn.addEventListener("click", () => {
+  introScreen.style.display = "none";
+  applicationCard.classList.remove("hidden");
+  window.scrollTo(0, 0);
+});
 
   backBtn.addEventListener("click", goBack);
   nextBtn.addEventListener("click", goNext);
