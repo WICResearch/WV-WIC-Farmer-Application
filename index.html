@@ -83,14 +83,18 @@ Save progress
       <a href="mailto:wicvu@wic.gov">wicvu@wic.gov</a>.
     </p>
 
-    <button
-      id="beginApplicationBtn"
-      class="button button-primary begin-button"
-      type="button"
-    >
-      Begin Application
-    </button>
-
+   <button
+  id="beginApplicationBtn"
+  class="button button-primary begin-button"
+  type="button"
+  onclick="
+    document.getElementById('introScreen').classList.add('hidden');
+    document.getElementById('applicationCard').classList.remove('hidden');
+    window.scrollTo(0, 0);
+  "
+>
+  Begin Application
+</button>
   </div>
 </section>
 
