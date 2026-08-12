@@ -97,22 +97,29 @@ Save progress
 </button>
   </div>
 </section>
-
 <section
   id="applicationCard"
   class="application-card hidden"
   aria-label="Application form"
 >
-<div class="progress-label-row">
-<span id="stepLabel">Step 1 of 7</span>
-<span id="progressPercent">14%</span>
-</div>
-<div class="progress-track" aria-hidden="true">
-<div id="progressBar" class="progress-bar"></div>
-</div>
-</div>
 
-<div id="statusMessage" class="status-message" role="status" aria-live="polite"></div>
+  <div class="progress-wrap">
+    <div class="progress-label-row">
+      <span id="stepLabel">Step 1 of 7</span>
+      <span id="progressPercent">14%</span>
+    </div>
+
+    <div class="progress-track" aria-hidden="true">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+  </div>
+
+  <div
+    id="statusMessage"
+    class="status-message"
+    role="status"
+    aria-live="polite"
+  ></div>
 
 <form id="applicationForm" novalidate>
 <!-- STEP 1 -->
