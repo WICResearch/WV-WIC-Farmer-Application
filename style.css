@@ -1292,3 +1292,177 @@ summary {
     width: 100%;
   }
 }
+/* =====================================================
+   COMPACT HEADER + BETTER LOGO LAYOUT
+===================================================== */
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  min-height: 0;
+
+  padding: 18px 42px;
+
+  background: #ffffff;
+  border-bottom: 4px solid var(--wic-green);
+
+  box-shadow: none;
+}
+
+.header-branding {
+  display: flex;
+  align-items: center;
+
+  gap: 28px;
+}
+
+.header-logos {
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+}
+
+.health-logo {
+  width: 230px;
+  height: auto;
+
+  max-height: 72px;
+
+  object-fit: contain;
+}
+
+.wic-logo {
+  width: 115px;
+  height: auto;
+
+  max-height: 70px;
+
+  object-fit: contain;
+}
+
+.header-divider {
+  display: block;
+
+  width: 1px;
+  height: 54px;
+
+  background: #d6e0e4;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-left: 26px;
+
+  border-left: 1px solid #d6e0e4;
+}
+
+.header-title .eyebrow {
+  margin: 0 0 2px;
+
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.header-title h1 {
+  margin: 0;
+
+  font-size: 1.55rem;
+  line-height: 1.2;
+
+  color: var(--wic-blue-dark);
+}
+
+#saveExitBtn {
+  flex-shrink: 0;
+}
+
+
+/* =====================================================
+   REDUCE DEAD SPACE
+===================================================== */
+
+.page-shell {
+  width: min(1180px, calc(100% - 3rem));
+
+  margin: 0 auto;
+
+  padding-top: 36px;
+  padding-bottom: 60px;
+}
+
+.intro-screen {
+  width: 100%;
+
+  margin: 0;
+
+  padding: 28px 0 48px;
+}
+
+.intro-content {
+  max-width: 820px;
+}
+
+.intro-screen .eyebrow {
+  margin-bottom: 10px;
+}
+
+.intro-screen h2 {
+  margin: 0 0 18px;
+
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  line-height: 1.05;
+}
+
+.intro-description {
+  margin-bottom: 24px;
+
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.intro-notice {
+  margin-bottom: 18px;
+
+  padding: 16px 20px;
+}
+
+.intro-help {
+  margin-bottom: 24px;
+}
+
+.begin-button {
+  margin-top: 0;
+}
+
+
+/* =====================================================
+   KEEP QUESTION SCREENS TIGHTER TOO
+===================================================== */
+
+.application-card {
+  margin-top: 0;
+}
+
+.progress-wrap {
+  margin-bottom: 28px;
+}
+
+.form-step.is-active {
+  padding-top: 28px;
+  padding-bottom: 30px;
+}
+
+.section-intro {
+  margin-bottom: 24px;
+}
+
+.form-actions {
+  margin-top: 30px;
+  padding-top: 20px;
+}
