@@ -14,7 +14,6 @@
 <div class="header-branding">
 <div class="header-logos">
 <img
-<img
  src="wv-health-logo.jpg"
   alt="West Virginia Department of Health"
   class="health-logo"
@@ -424,7 +423,56 @@ I have read and agree to the Civil Rights Assurance.
 <div class="field">
 <label for="signatureName">Type your full legal name <span aria-hidden="true">*</span></label>
 <input id="signatureName" name="signatureName" type="text" autocomplete="name" required />
-<p class="help-text">Typing your name serves as your electronic signature.</p>
+<p class="help-text">Enter the full legal name of the person signing the application.</p>
+</div>
+ <div class="signature-pad-section">
+
+  <label class="signature-pad-label">
+    Signature <span aria-hidden="true">*</span>
+  </label>
+
+  <p class="help-text">
+    Sign below using your finger, mouse, or stylus.
+  </p>
+
+  <div class="signature-pad-wrap">
+
+    <canvas
+      id="signaturePad"
+      class="signature-pad"
+      aria-label="Signature area"
+    ></canvas>
+
+    <div class="signature-line" aria-hidden="true"></div>
+
+  </div>
+
+  <div class="signature-pad-actions">
+
+    <button
+      id="clearSignatureBtn"
+      class="button button-secondary compact"
+      type="button"
+    >
+      Clear signature
+    </button>
+
+  </div>
+
+  <input
+    id="signatureData"
+    name="signatureData"
+    type="hidden"
+  />
+
+  <div
+    id="signatureError"
+    class="field-error hidden"
+    role="alert"
+  >
+    Please provide your signature before submitting.
+  </div>
+
 </div>
 
 <div class="field">
