@@ -5,7 +5,7 @@
 const CONFIG = {
   // Paste your deployed Google Apps Script Web App URL here.
   // Example: https://script.google.com/macros/s/XXXX/exec
-  submissionEndpoint:"https://script.google.com/macros/s/AKfycbwDed3DMa5PkiyIE4ltfzur7SWOp5PNT8iNLJZhJVTQQlc9s0U36_54B00y2TdW7Z-eOA/exec", 
+  submissionEndpoint:"https://script.google.com/macros/s/AKfycbxjo-2pslLgB8D_zyV3XENlfuJoI772qxl2HsdQ-fNE2nzoqi1Ehr67QuYoFgw44dE3dw/exec", 
   storageKey: "wvWicFarmerApplicationDraftV1",
   totalSteps: 7
 };
