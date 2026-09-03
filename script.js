@@ -39,12 +39,20 @@ const confirmationText = document.getElementById("confirmationText");
 const introScreen = document.getElementById("introScreen");
 const applicationCard = document.getElementById("applicationCard");
 const beginApplicationBtn = document.getElementById("beginApplicationBtn");
+const signaturePad = document.getElementById("signaturePad");
+const signatureData = document.getElementById("signatureData");
+const clearSignatureBtn = document.getElementById("clearSignatureBtn");
+const signatureError = document.getElementById("signatureError");
 
+let signatureContext = null;
+let signatureDrawing = false;
+let signatureHasInk = false;
 let currentStep = 1;
 let locationCounter = 0;
 let lastSubmittedData = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+  initializeSignaturePad();
   restoreDraft();
 
   if (locationsContainer.children.length === 0) {
@@ -89,7 +97,137 @@ beginApplicationBtn.addEventListener("click", () => {
   document.getElementById("downloadBtn").addEventListener("click", downloadApplicationCopy);
   document.getElementById("newApplicationBtn").addEventListener("click", resetApplication);
 }
+function initializeSignaturePad() {
+  if (!signaturePad) return;
 
+  signatureContext = signaturePad.getContext("2d");
+
+  signaturePad.addEventListener("pointerdown", startSignature);
+  signaturePad.addEventListener("pointermove", drawSignature);
+  signaturePad.addEventListener("pointerup", finishSignature);
+  signaturePad.addEventListener("pointercancel", finishSignature);
+
+  clearSignatureBtn.addEventListener("click", clearSignature);
+
+  window.addEventListener("resize", () => {
+    if (currentStep === CONFIG.totalSteps) {
+      resizeSignaturePad();
+    }
+  });
+}
+function resizeSignaturePad() {
+  if (!signaturePad || !signatureContext) return;
+
+  const rect = signaturePad.getBoundingClientRect();
+
+  if (rect.width === 0 || rect.height === 0) return;
+
+  const savedSignature = signatureData.value;
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+
+  signaturePad.width = Math.floor(rect.width * ratio);
+  signaturePad.height = Math.floor(rect.height * ratio);
+
+  signatureContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+  signatureContext.lineWidth = 2.2;
+  signatureContext.lineCap = "round";
+  signatureContext.lineJoin = "round";
+  signatureContext.strokeStyle = "#1f2933";
+
+  if (savedSignature) {
+    const image = new Image();
+
+    image.onload = () => {
+      signatureContext.drawImage(
+        image,
+        0,
+        0,
+        rect.width,
+        rect.height
+      );
+
+      signatureHasInk = true;
+    };
+
+    image.src = savedSignature;
+  }
+}
+
+function startSignature(event) {
+  if (!signatureContext) return;
+
+  signatureDrawing = true;
+
+  const point = getSignaturePoint(event);
+
+  signatureContext.beginPath();
+  signatureContext.moveTo(point.x, point.y);
+
+  signaturePad.setPointerCapture(event.pointerId);
+}
+
+function drawSignature(event) {
+  if (!signatureDrawing || !signatureContext) return;
+
+  const point = getSignaturePoint(event);
+
+  signatureContext.lineTo(point.x, point.y);
+  signatureContext.stroke();
+
+  signatureHasInk = true;
+
+  if (signatureError) {
+    signatureError.classList.add("hidden");
+  }
+}
+
+function finishSignature(event) {
+  if (!signatureDrawing) return;
+
+  signatureDrawing = false;
+
+  if (
+    event &&
+    signaturePad.hasPointerCapture &&
+    signaturePad.hasPointerCapture(event.pointerId)
+  ) {
+    signaturePad.releasePointerCapture(event.pointerId);
+  }
+
+  if (signatureHasInk) {
+    signatureData.value = signaturePad.toDataURL("image/png");
+    saveDraft(false);
+  }
+}
+function getSignaturePoint(event) {
+  const rect = signaturePad.getBoundingClientRect();
+
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
+}
+
+function clearSignature() {
+  if (!signaturePad || !signatureContext) return;
+
+  signatureContext.clearRect(
+    0,
+    0,
+    signaturePad.width,
+    signaturePad.height
+  );
+
+  signatureHasInk = false;
+  signatureData.value = "";
+
+  if (signatureError) {
+    signatureError.classList.add("hidden");
+  }
+
+  saveDraft(false);
+}
 function goNext() {
   if (!validateStep(currentStep)) return;
 
@@ -126,9 +264,15 @@ progressBar.parentElement.setAttribute("aria-valuemax", "100");
 progressBar.parentElement.setAttribute("aria-valuenow", String(percent));
   backBtn.classList.toggle("hidden", currentStep === 1);
   nextBtn.classList.toggle("hidden", currentStep === CONFIG.totalSteps);
-  submitBtn.classList.toggle("hidden", currentStep !== CONFIG.totalSteps);
+ submitBtn.classList.toggle("hidden", currentStep !== CONFIG.totalSteps);
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+if (currentStep === CONFIG.totalSteps) {
+  requestAnimationFrame(() => {
+    resizeSignaturePad();
+  });
+}
+
+window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function focusStepHeading() {
@@ -160,7 +304,16 @@ function validateStep(stepNumber) {
       return false;
     }
   }
+if (stepNumber === 7 && !signatureHasInk) {
+  signatureError.classList.remove("hidden");
 
+  statusMessage.textContent =
+    "Please provide your signature before submitting the application.";
+
+  signaturePad.focus();
+
+  return false;
+}
   if (firstInvalid) {
     statusMessage.textContent = "Please correct the highlighted fields before continuing.";
     firstInvalid.focus();
@@ -297,9 +450,10 @@ function collectFormData() {
       truthCertification: Boolean(raw.truthCertification)
     },
     signature: {
-      name: raw.signatureName || "",
-      date: raw.signatureDate || ""
-    }
+  name: raw.signatureName || "",
+  date: raw.signatureDate || "",
+  image: signatureData ? signatureData.value : ""
+}
   };
 }
 
@@ -450,6 +604,10 @@ function restoreDraft() {
 
     setValue("signatureName", data.signature?.name);
     setValue("signatureDate", data.signature?.date);
+ if (data.signature?.image && signatureData) {
+  signatureData.value = data.signature.image;
+  signatureHasInk = true;
+}   
 
     currentStep = Math.min(
       Math.max(Number(draft.currentStep) || 1, 1),
