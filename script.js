@@ -647,17 +647,175 @@ function setDefaultSignatureDate() {
 function downloadApplicationCopy() {
   if (!lastSubmittedData) return;
 
-  const blob = new Blob(
-    [JSON.stringify(lastSubmittedData, null, 2)],
-    { type: "application/json" }
-  );
+  const data = lastSubmittedData;
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `${lastSubmittedData.applicationId}-wv-wic-farmer-application.json`;
-  link.click();
-  URL.revokeObjectURL(url);
+  const locationRows = data.locations
+    .map((location, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${escapeHtml(location.address)}</td>
+        <td>${escapeHtml(location.county)}</td>
+        <td>${escapeHtml(location.days)}</td>
+        <td>${escapeHtml(location.times)}</td>
+      </tr>
+    `)
+    .join("");
+
+  const signatureImage = data.signature?.image
+    ? `<img src="${data.signature.image}" alt="Applicant signature" style="max-width: 320px; max-height: 100px;">`
+    : "<em>No signature image available</em>";
+
+  const documentHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WV WIC Farmer Authorization Application</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 40px;
+    color: #222;
+    line-height: 1.4;
+  }
+
+  h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  h2 {
+    font-size: 17px;
+    margin-top: 26px;
+    border-bottom: 1px solid #999;
+    padding-bottom: 4px;
+  }
+
+  p {
+    margin: 6px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  th,
+  td {
+    border: 1px solid #999;
+    padding: 7px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #f1f1f1;
+  }
+
+  .signature-block {
+    margin-top: 18px;
+  }
+
+  .footer-note {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #555;
+  }
+
+  @media print {
+    body {
+      margin: 0.5in;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>West Virginia WIC Farmer Authorization Application</h1>
+<p><strong>Application ID:</strong> ${escapeHtml(data.applicationId)}</p>
+<p><strong>Submitted:</strong> ${escapeHtml(new Date(data.submittedAt).toLocaleString())}</p>
+
+<h2>Applicant Information</h2>
+
+<p><strong>Role:</strong> ${escapeHtml(data.role)}</p>
+<p><strong>Farmer or Market Manager:</strong> ${escapeHtml(data.applicant.managerName)}</p>
+<p><strong>Farm or Market Name:</strong> ${escapeHtml(data.applicant.farmName)}</p>
+<p>
+  <strong>Mailing Address:</strong>
+  ${escapeHtml(data.applicant.mailingAddress)},
+  ${escapeHtml(data.applicant.city)},
+  ${escapeHtml(data.applicant.state)}
+  ${escapeHtml(data.applicant.zip)}
+</p>
+<p><strong>Telephone:</strong> ${escapeHtml(data.applicant.telephone)}</p>
+<p><strong>Email:</strong> ${escapeHtml(data.applicant.email)}</p>
+
+<h2>Selling Locations</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Location</th>
+      <th>County</th>
+      <th>Days</th>
+      <th>Times</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${locationRows}
+  </tbody>
+</table>
+
+<h2>Training and Connectivity</h2>
+
+<p><strong>Training Date:</strong> ${escapeHtml(data.training.date || "Not provided")}</p>
+<p><strong>Trainer Name:</strong> ${escapeHtml(data.training.trainerName || "Not provided")}</p>
+<p><strong>Training Type:</strong> ${escapeHtml(data.training.type || "Not provided")}</p>
+<p><strong>Cellular Service / Wi-Fi:</strong> ${escapeHtml(data.training.connectivity)}</p>
+
+<h2>Certifications</h2>
+
+<p><strong>Farmer Agreement Accepted:</strong> ${data.certifications.agreementAccepted ? "Yes" : "No"}</p>
+<p><strong>Civil Rights Assurance Accepted:</strong> ${data.certifications.civilRightsAccepted ? "Yes" : "No"}</p>
+<p><strong>Truth Certification Accepted:</strong> ${data.certifications.truthCertification ? "Yes" : "No"}</p>
+
+<h2>Signature</h2>
+
+<p><strong>Legal Name:</strong> ${escapeHtml(data.signature.name)}</p>
+<p><strong>Date:</strong> ${escapeHtml(data.signature.date)}</p>
+
+<div class="signature-block">
+  ${signatureImage}
+</div>
+
+<p class="footer-note">
+  Completing this application does not by itself authorize the applicant
+  to accept WV WIC FMNP or Cash Value Benefits.
+</p>
+
+</body>
+</html>
+`;
+
+  const printWindow = window.open("", "_blank");
+
+  if (!printWindow) {
+    statusMessage.textContent =
+      "Your browser blocked the application document. Please allow pop-ups and try again.";
+    return;
+  }
+
+  printWindow.document.open();
+  printWindow.document.write(documentHtml);
+  printWindow.document.close();
+
+  printWindow.onload = () => {
+    printWindow.focus();
+    printWindow.print();
+  };
 }
 
 function resetApplication() {
