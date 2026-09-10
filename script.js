@@ -116,8 +116,15 @@ startNewApplicationBtn.addEventListener("click", () => {
   addLocationBtn.addEventListener("click", () => addLocation());
 
   document.getElementById("saveExitBtn").addEventListener("click", () => {
-    saveDraft(true);
-  });
+  saveDraft(false);
+
+  applicationCard.classList.add("hidden");
+  introScreen.classList.remove("hidden");
+
+  updateWelcomeScreen();
+
+  window.scrollTo(0, 0);
+});
 
   form.addEventListener("input", () => {
     saveDraft(false);
