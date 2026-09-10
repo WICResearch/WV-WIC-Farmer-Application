@@ -55,6 +55,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeSignaturePad();
   restoreDraft();
 
+  // Prevent future training dates
+  document.getElementById("trainingDate").max =
+    new Date().toISOString().slice(0, 10);
+
   if (locationsContainer.children.length === 0) {
     addLocation();
   }
