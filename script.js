@@ -79,9 +79,36 @@ function updateWelcomeScreen() {
 function bindEvents() {
 
 beginApplicationBtn.addEventListener("click", () => {
-  introScreen.style.display = "none";
+  introScreen.classList.add("hidden");
   applicationCard.classList.remove("hidden");
+  currentStep = 1;
+  updateStepUI();
   window.scrollTo(0, 0);
+});
+
+resumeApplicationBtn.addEventListener("click", () => {
+  restoreDraft();
+
+  introScreen.classList.add("hidden");
+  applicationCard.classList.remove("hidden");
+
+  if (currentStep === CONFIG.totalSteps) {
+    renderReview();
+  }
+
+  updateStepUI();
+  window.scrollTo(0, 0);
+});
+
+startNewApplicationBtn.addEventListener("click", () => {
+  const confirmed = window.confirm(
+    "Start a new application? Your saved application on this device will be deleted."
+  );
+
+  if (!confirmed) return;
+
+  localStorage.removeItem(CONFIG.storageKey);
+  window.location.reload();
 });
 
   backBtn.addEventListener("click", goBack);
