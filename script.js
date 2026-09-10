@@ -93,6 +93,7 @@ resumeApplicationBtn.addEventListener("click", () => {
 
   introScreen.classList.add("hidden");
   applicationCard.classList.remove("hidden");
+  saveExitBtn.classList.remove("hidden");
 
   if (currentStep === CONFIG.totalSteps) {
     renderReview();
