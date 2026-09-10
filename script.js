@@ -142,7 +142,9 @@ saveExitBtn.classList.add("hidden");
 
   form.addEventListener("submit", handleSubmit);
 
-  document.getElementById("printBtn").addEventListener("click", () => window.print());
+  document.getElementById("printBtn").addEventListener("click", () => {
+  downloadApplicationCopy("print");
+});
   document.getElementById("downloadBtn").addEventListener("click", downloadApplicationCopy);
   document.getElementById("newApplicationBtn").addEventListener("click", resetApplication);
 }
