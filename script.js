@@ -41,6 +41,7 @@ const applicationCard = document.getElementById("applicationCard");
 const beginApplicationBtn = document.getElementById("beginApplicationBtn");
 const resumeApplicationBtn = document.getElementById("resumeApplicationBtn");
 const startNewApplicationBtn = document.getElementById("startNewApplicationBtn");
+const saveExitBtn = document.getElementById("saveExitBtn");
 const signaturePad = document.getElementById("signaturePad");
 const signatureData = document.getElementById("signatureData");
 const clearSignatureBtn = document.getElementById("clearSignatureBtn");
