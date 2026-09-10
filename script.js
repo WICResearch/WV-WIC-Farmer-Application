@@ -693,7 +693,7 @@ function setDefaultSignatureDate() {
   }
 }
 
-function downloadApplicationCopy() {
+function downloadApplicationCopy(action = "download") {
   if (!lastSubmittedData) return;
 
   const data = lastSubmittedData;
