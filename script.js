@@ -82,6 +82,7 @@ function bindEvents() {
 beginApplicationBtn.addEventListener("click", () => {
   introScreen.classList.add("hidden");
   applicationCard.classList.remove("hidden");
+  saveExitBtn.classList.remove("hidden");
   currentStep = 1;
   updateStepUI();
   window.scrollTo(0, 0);
