@@ -55,7 +55,7 @@ let lastSubmittedData = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeSignaturePad();
-  restoreDraft();
+ updateWelcomeScreen();
 
   // Prevent future training dates
   document.getElementById("trainingDate").max =
