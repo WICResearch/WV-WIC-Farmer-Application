@@ -123,7 +123,7 @@ startNewApplicationBtn.addEventListener("click", () => {
 
   applicationCard.classList.add("hidden");
   introScreen.classList.remove("hidden");
-
+saveExitBtn.classList.add("hidden");
   updateWelcomeScreen();
 
   window.scrollTo(0, 0);
