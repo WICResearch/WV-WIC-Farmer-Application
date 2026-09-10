@@ -895,8 +895,8 @@ function downloadApplicationCopy(action = "download") {
   `${data.applicationId || "WV-WIC-Farmer"}-Application.pdf`;
 
 if (action === "print") {
-  pdf.autoPrint();
-  window.open(pdf.output("bloburl"), "_blank");
+  const pdfUrl = pdf.output("bloburl");
+  window.open(pdfUrl, "_blank");
 } else {
   pdf.save(fileName);
 }
