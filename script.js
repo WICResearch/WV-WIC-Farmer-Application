@@ -889,10 +889,15 @@ function downloadApplicationCopy(action = "download") {
 
   pdf.text(note, left, y);
 
-  const fileName =
-    `${data.applicationId || "WV-WIC-Farmer"}-Application.pdf`;
+ const fileName =
+  `${data.applicationId || "WV-WIC-Farmer"}-Application.pdf`;
 
+if (action === "print") {
+  pdf.autoPrint();
+  window.open(pdf.output("bloburl"), "_blank");
+} else {
   pdf.save(fileName);
+}
 }
 
 function resetApplication() {
