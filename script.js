@@ -69,7 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
   updateStepUI();
   bindEvents();
 });
+function updateWelcomeScreen() {
+  const hasSavedDraft = Boolean(localStorage.getItem(CONFIG.storageKey));
 
+  beginApplicationBtn.classList.toggle("hidden", hasSavedDraft);
+  resumeApplicationBtn.classList.toggle("hidden", !hasSavedDraft);
+  startNewApplicationBtn.classList.toggle("hidden", !hasSavedDraft);
+}
 function bindEvents() {
 
 beginApplicationBtn.addEventListener("click", () => {
