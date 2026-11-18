@@ -476,6 +476,7 @@ function collectFormData() {
 
   return {
     applicationVersion: "2026",
+    farmerAgreementRuleVersion: "2027-final-rule-proposed-v1",
     submittedAt: new Date().toISOString(),
     role: raw.role || "",
     applicant: {
@@ -497,6 +498,9 @@ function collectFormData() {
     },
     certifications: {
       agreementAccepted: Boolean(raw.agreementAccepted),
+      rule2027Authentication: Boolean(raw.rule2027Authentication),
+      rule2027Price: Boolean(raw.rule2027Price),
+      rule2027Fees: Boolean(raw.rule2027Fees),
       civilRightsAccepted: Boolean(raw.civilRightsAccepted),
       truthCertification: Boolean(raw.truthCertification)
     },
@@ -646,6 +650,9 @@ function restoreDraft() {
     setRadioValue("trainingType", data.training?.type);
     setRadioValue("connectivity", data.training?.connectivity);
 
+    ["rule2027Authentication", "rule2027Price", "rule2027Fees"].forEach(id => {
+      document.getElementById(id).checked = Boolean(data.certifications?.[id]);
+    });
     document.getElementById("agreementAccepted").checked =
       Boolean(data.certifications?.agreementAccepted);
     document.getElementById("civilRightsAccepted").checked =
@@ -844,6 +851,11 @@ function downloadApplicationCopy(action = "download") {
     "Farmer Agreement Accepted",
     data.certifications?.agreementAccepted ? "Yes" : "No"
   );
+
+  addField("2027 Agreement Rule Version", data.farmerAgreementRuleVersion || "Not recorded");
+  addField("Transaction Authentication Acknowledged", data.certifications?.rule2027Authentication ? "Yes" : "No");
+  addField("Total Price Disclosure Acknowledged", data.certifications?.rule2027Price ? "Yes" : "No");
+  addField("WIC Fee Requirements Acknowledged", data.certifications?.rule2027Fees ? "Yes" : "No");
 
   addField(
     "Civil Rights Assurance Accepted",
