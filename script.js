@@ -476,6 +476,7 @@ function collectFormData() {
 
   return {
     applicationVersion: "2026",
+    farmerAgreementAcceptedAt: raw.rule2027Authentication && raw.rule2027Price && raw.rule2027Fees && raw.agreementAccepted ? new Date().toISOString() : null,
     farmerAgreementRuleVersion: "2027-final-rule-proposed-v1",
     submittedAt: new Date().toISOString(),
     role: raw.role || "",
@@ -551,6 +552,12 @@ function renderReview() {
       <p><strong>Training type:</strong> ${escapeHtml(data.training.type || "Not provided")}</p>
       <p><strong>Cellular service/Wi-Fi:</strong> ${escapeHtml(data.training.connectivity)}</p>
     </section>
+    <section class="review-section">
+      <h3>2027 farmer agreement provisions</h3>
+      <p>Transaction authentication: ${data.certifications.rule2027Authentication ? "Acknowledged" : "Not acknowledged"}</p>
+      <p>Purchase price disclosure: ${data.certifications.rule2027Price ? "Acknowledged" : "Not acknowledged"}</p>
+      <p>WIC-related fees: ${data.certifications.rule2027Fees ? "Acknowledged" : "Not acknowledged"}</p>
+    </section>
   `;
 }
 
@@ -559,6 +566,12 @@ async function handleSubmit(event) {
 
   if (!validateStep(CONFIG.totalSteps)) return;
 
+  if (!validateStep(5)) {
+    currentStep = 5;
+    updateStepUI();
+    statusMessage.textContent = "Please accept the farmer agreement requirements before submitting.";
+    return;
+  }
   const data = collectFormData();
   const applicationId = createApplicationId();
   data.applicationId = applicationId;
@@ -853,6 +866,7 @@ function downloadApplicationCopy(action = "download") {
   );
 
   addField("2027 Agreement Rule Version", data.farmerAgreementRuleVersion || "Not recorded");
+  addField("Agreement Acceptance Timestamp (UTC)", data.farmerAgreementAcceptedAt || "Not recorded");
   addField("Transaction Authentication Acknowledged", data.certifications?.rule2027Authentication ? "Yes" : "No");
   addField("Total Price Disclosure Acknowledged", data.certifications?.rule2027Price ? "Yes" : "No");
   addField("WIC Fee Requirements Acknowledged", data.certifications?.rule2027Fees ? "Yes" : "No");
